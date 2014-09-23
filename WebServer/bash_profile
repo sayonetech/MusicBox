@@ -7,19 +7,15 @@ umask 002
 
 # include .bashrc if it exists
 if [ -f ~/.bashrc ]; then
-        . ~/.bashrc
-    fi
+    . ~/.bashrc
+fi
 
+alias ls='ls -p'
+alias sd='source ~/.bash_profile'
+alias h='history | tail -15'
 
-    alias ls='ls -p'
-    #alias vi='mvim'
-    alias gs='lynx http://www.google.com/'
-    alias sd='source ~/.bash_profile'
-    alias h='history | tail -15'
+export EDITOR=vi
 
-    export EDITOR=vi
-
-    export CLICOLOR=1
 
 
 
