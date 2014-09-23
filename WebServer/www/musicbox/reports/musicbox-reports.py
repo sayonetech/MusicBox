@@ -47,6 +47,10 @@ def get_user_info_counts(active_top=False, time=False):
 def index():
     return render_template('reports.html')
 
+@app.route("/api/v1/doc")
+def doc():
+    return render_template('doc.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     return jsonify(error="Invalid API request.")
