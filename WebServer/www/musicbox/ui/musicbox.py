@@ -19,13 +19,6 @@ app = Flask(__name__)
 #if not app.debug:
     #import logging
     #from logging.handlers import SMTPHandler
-    #mail_handler = SMTPHandler('mail.trikeorama.com',
-                               #'david&carolyn@trikeorama.com',
-                               #'notice@davidbianco.net',
-                               #'Wedding Website ERROR',
-                               #('david&carolyn@trikeorama.com','trimailcycle'))
-    #mail_handler.setLevel(logging.WARNING)
-    ##app.logger.addHandler(mail_handler)
 #
     #file_handler = logging.FileHandler('/var/log/flask/weberror.log')
     #file_handler.setLevel(logging.WARNING)

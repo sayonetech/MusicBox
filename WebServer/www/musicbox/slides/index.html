@@ -52,6 +52,13 @@
 					</aside>
 				</section>
 
+                <section id="data-pipeline">
+						<img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+                </section>
+
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
@@ -249,20 +256,34 @@ Reveal.addEventListener( 'customevent', function() {
 				<section>
 					<h2>Pretty Code</h2>
 					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
+from flask import Flask, render_template, url_for, redirect, request, flash, session, jsonify
+import happybase
+import json
 
-    var nodes = document.querySelectorAll( selector );
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+DEBUG = True
+SECRET_KEY = 'fjl34f4984fkl43#(p'
+SERVER_NAME = 'davidbianco.net'
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
+app = Flask(__name__)
+#app.config.from_object('wedding_site.app.config')
+
+#from models import db
+#db.init_app(app)
+
+#from flask_mail import Mail
+#mail = Mail(app)
+
+#if not app.debug:
+    #import logging
+    #from logging.handlers import SMTPHandler
+    #mail_handler = SMTPHandler('mail.trikeorama.com',
+    #'david&carolyn@trikeorama.com',
+    #'notice@davidbianco.net',
+    #'Wedding Website ERROR',
+    #mail_handler.setLevel(logging.WARNING)
+    ##app.logger.addHandler(mail_handler)
+
 					</code></pre>
 					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
 				</section>
@@ -344,24 +365,22 @@ function linkify( selector ) {
 				</section>
 
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
 
 		<script>
-
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+                controls: false,
 				progress: true,
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+				theme: Reveal.getQueryHash().theme || 'sky', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -377,8 +396,6 @@ function linkify( selector ) {
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
-
 		</script>
-
 	</body>
 </html>
