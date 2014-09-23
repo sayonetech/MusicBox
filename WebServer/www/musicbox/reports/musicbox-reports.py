@@ -49,7 +49,7 @@ def index():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return jsonify(error="Invalid API request."), 404
+    return jsonify(error="Invalid API request.")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8001, debug=DEBUG)
