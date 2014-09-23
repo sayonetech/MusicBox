@@ -1,0 +1,74 @@
+
+events:
+new user
+login (ip,  userid, timestamp, device)
+logoff 
+(ip, userid, timestamp, device)
+thumbs-up (ip, userid, timestamp, songid)
+thumbs-dn 
+(ip, userid, timestamp, songid)
+skip
+(ip, userid, timestamp, songid)
+pause
+(ip, userid, timestamp, songid)
+deactivate user
+(ip, userid, timestamp, device)
+choose artist/song
+(ip, userid, timestamp, device)
+save station
+(ip, userid, timestamp, device, station_id)
+delete station
+(ip, userid, timestamp, device, station_id)
+
+LOOKUPS
+list of 500 first names
+list of 1000 last names
+comcast ip's
+US zip codes
+
+USER
+userid
+fname 
+lname
+email
+password
+last_login
+create_date
+zipcode
+birth_year
+gender
+my_stations
+active
+similar_users
+IPs ?
+
+LISTENING
+userid
+songid
+IP
+device
+reaction : pause, skip, tup, tdn, quit
+
+SONGS
+songid
+artist
+title
+album
+year
+genre
+similarity
+hotttnesss
+
+
+
+API
+search song database: by artist, by year, by decade, by song, by album
+top 100 artists (tup)
+top 100 users (total hrs listening)
+active listeners
+timedate most active listeners per day (overall, today, yesterday, this week, last week, this month, last month, last 12 months (by month), by year
+how many times artist, song was played last month - for royalties
+song stats: num_listens, num_unique_listens, num_tup, num_tdn, num_skip, num_quit (total, today, yesterday, week, last week, mo, la mo, la 12 mo, year)
+
+
+

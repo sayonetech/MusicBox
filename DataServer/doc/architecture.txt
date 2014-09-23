@@ -1,0 +1,15 @@
+
+
+Listening clients
+
+Web Server
+
+Kafka
+
+Hadoop Cluster (namenode + N datanodes)
+
+NoSQL store (HBase, Cassandra, ...)
+
+Storm/Spark
+
+

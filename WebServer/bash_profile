@@ -1,0 +1,25 @@
+# ~/.bash_profile: executed by bash(1) for login shells.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/login.defs
+umask 002
+
+# include .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+    fi
+
+
+    alias ls='ls -p'
+    #alias vi='mvim'
+    alias gs='lynx http://www.google.com/'
+    alias sd='source ~/.bash_profile'
+    alias h='history | tail -15'
+
+    export EDITOR=vi
+
+    export CLICOLOR=1
+
+
+

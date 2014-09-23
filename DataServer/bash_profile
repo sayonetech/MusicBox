@@ -1,0 +1,29 @@
+# ~/.bash_profile: executed by bash(1) for login shells.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/login.defs
+umask 002
+
+# include .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+export LOG=/var/log
+
+export KAFKA_HOME=/opt/kafka_2.10-0.8.1.1
+export HBASE_HOME=/opt/cloudera/parcels/CDH-5.1.2-1.cdh5.1.2.p0.3/lib/hbase
+
+export PATH=$PATH:$HOME/bin
+
+alias ls='ls -p'
+alias sd='source ~/.bash_profile'
+alias pig='pig -l $LOG/pig'
+
+export EDITOR=vi
+
+alias kafka-start='$KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties &>> $LOG/kafka/kafka.log &'
+alias kafka-stop='$KAFKA_HOME/bin/kafka-server-stop.sh &>> $LOG/kafka/kafka.log &'
+
+

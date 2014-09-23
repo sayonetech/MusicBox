@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set active_page = "Search" %}
+{% block content %}
+
+<section class="section-content section-news" id="section-news">
+<div class="container">
+<div class="row">
+<div class="span12">
+<div class="row">
+<div class="span6 offset2">
+
+
+<div class="flash"><strong>{{ message }}</strong></div><br/>
+<a href="{{ url_for('login') }}">Login</a>
+<br />
+<a href="{{ url_for('register') }}">Register</a>
+<br />
+
+<center>
+
+<form action="{{ url_for('search') }}" method="post">
+<br /> <br /> <br /> <br /> <br />
+SEARCH: <input type="text" name="email" value="Rolling" size="40" />
+<br />
+<input type="submit" name="submit" value="Search" />
+</form>
+</center>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{% endblock %}
+
