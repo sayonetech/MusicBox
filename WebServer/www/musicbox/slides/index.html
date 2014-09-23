@@ -252,6 +252,14 @@ Reveal.addEventListener( 'customevent', function() {
 						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
 					</blockquote>
 				</section>
+                <section id="about-me">
+                    <ul>
+                        <li>GIS Consultant - Booz Allen Hamilton
+                        <li>Avid cyclist, ex-racer
+                        <li>Internet Radio DJ
+                    </ul>
+                    <a href="http://davidbianco.net/about-me">http://davidbianco.net/about-me</a>
+                </section>
 
 				<section>
 					<h2>Pretty Code</h2>
@@ -263,10 +271,9 @@ import json
 
 DEBUG = True
 SECRET_KEY = 'fjl34f4984fkl43#(p'
-SERVER_NAME = 'davidbianco.net'
+SERVER_NAME = 'example.org'
 
 app = Flask(__name__)
-#app.config.from_object('wedding_site.app.config')
 
 #from models import db
 #db.init_app(app)
@@ -277,9 +284,6 @@ app = Flask(__name__)
 #if not app.debug:
     #import logging
     #from logging.handlers import SMTPHandler
-    #mail_handler = SMTPHandler('mail.trikeorama.com',
-    #'david&carolyn@trikeorama.com',
-    #'notice@davidbianco.net',
     #'Wedding Website ERROR',
     #mail_handler.setLevel(logging.WARNING)
     ##app.logger.addHandler(mail_handler)
