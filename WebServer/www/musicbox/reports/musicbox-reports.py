@@ -8,13 +8,13 @@ SECRET_KEY = 'fjl34f4984fkl43#(p'
 SERVER_NAME = 'davidbianco.net'
 
 app = Flask(__name__)
-#app.config.from_object('wedding_site.app.config')
+app.debug = True
 
 #if not app.debug:
 if True:
     import logging
 
-    file_handler = logging.FileHandler('/var/log/flask/weberror.log')
+    file_handler = logging.FileHandler('/var/log/flask/musicbox-reports/weberror.log')
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
 
