@@ -25,6 +25,8 @@
 			}
 		</script>
 
+		<link rel="stylesheet" href="css/dbianco.css">
+
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -61,17 +63,18 @@
                 <li>Archive Event Log</li>
                 <li>Event Stream: login, search, play, thumbs up/dn, skip</li>
             </ul>
-            <p> Volume: TBD. ~400 GB </p>
-            <p> Velocity: Scale test: 1-1000 events/min </p>
-            <p> Variety: Potential to inlcude external API (Songkick, 7digital) </p>
+            <br/> <br/> <br/> <br/>
+            <p style="text-align: left;"> Volume:&nbsp;&nbsp;&nbsp; TBD. ~400 GB </p>
+            <p style="text-align: left;"> Velocity:&nbsp;&nbsp;&nbsp; Scale test: 1-1000 events/min </p>
+            <p style="text-align: left;"> Variety:&nbsp;&nbsp; Potential to inlcude external API (Songkick, 7digital) </p>
         </section>
 
         <section id="data-pipeline">
         <h2>Data Pipeline</h2>
-						<img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
-						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
-						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
-						<img class="fragment" width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img width="220" height="199" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="220" height="199" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="220" height="199" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+						<img class="fragment" width="220" height="199" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
         </section>
 
                 <section id="demo">
@@ -82,11 +85,16 @@
 
                 <section id="about-me">
                     <h2>About Me</h2>
-                    <ul>
-                        <li>GIS Consultant - Booz Allen Hamilton</li>
-                        <li>Avid cyclist - raced with PAA Cycling</li>
-                        <li>Internet Radio DJ - BFF.fm</li>
-                    </ul>
+                    <div id="aboutme-topleft">
+                        <ul>
+                            <li>GIS Consultant - Booz Allen Hamilton</li>
+                            <li>Avid cyclist - raced with PAA Cycling</li>
+                            <li>Internet Radio DJ - BFF.fm</li>
+                        </ul>
+                    </div>
+                    <div id="aboutme-topright">
+                        <img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+                    </div>
                     <p><a href="http://davidbianco.net/about-me">http://davidbianco.net/about-me</a></p>
                 </section>
 
@@ -162,8 +170,8 @@ It has data-trim and editable
 			Reveal.initialize({
                 controls: false,
 				progress: true,
-				history: true,
-				center: false,
+				history: false,
+				center: true,
 
 				theme: Reveal.getQueryHash().theme || 'sky', // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
