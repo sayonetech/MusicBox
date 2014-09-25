@@ -28,6 +28,34 @@ TIMEFRAME: Total, Today, Yesterday, This Week, Last Week, This Month, Last Month
 </form>
 </center>
 
+<div id="container" style="height: 400px; min-width: 310px"></div>
+<script>
+$(function () {
+
+    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+    // Create the chart
+        $('#container').highcharts('StockChart', {
+
+            rangeSelector : {
+                selected : 1,
+                inputEnabled: $('#container').width() > 480
+            },
+
+            title : {
+                text : 'AAPL Stock Price'
+            },
+
+            series : [{
+                name : 'AAPL',
+                data : data,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+         });
+    });
+});
+</script>
 </div>
 </div>
 </div>
