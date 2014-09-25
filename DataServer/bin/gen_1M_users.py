@@ -56,17 +56,21 @@ def new_user(id=0):
 
     return userid, acct_created, last_login, active
 
-def random_wait():
-    wait_mins = (43, 65, 244, 245, 246, 247, 422, 424, 425, 428, 600)
-    wait_next = random.choice(wait_mins)
-    return wait_next
 
+def random_wait():
+    wait_seconds = (43, 65, 244, 245, 246, 247, 422, 424, 425, 428, 600)
+    wait_next = random.choice(wait_seconds)
+    return wait_next
 
 
 def new_event(u):
     #d['event'] = 'login'
     #choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
     #event_choice = random.choice(choice_list)
+#select active user (uid,begindate,lastdate,ip)
+#select first song in hotttnesss range (sid,sim_artists) [9] * 50 + [8] * 30 + [7] * 15 + [5] * 5
+#login user
+# LOOP: freq_wt ^ (freq-1, freq) or 1 if <0
     next_event = 'login'
     ip4 = fake.ipv4()
 
@@ -118,7 +122,6 @@ def new_event(u):
             last_time = new_time
             choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
             next_event = random.choice(choice_list)
-
 
         json.dumps(d)
         with open('user_events_init_pretty.json', 'a') as prettyfile:
