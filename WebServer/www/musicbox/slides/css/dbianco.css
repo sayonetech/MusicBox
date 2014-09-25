@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+#aboutme-topleft {
+    border-style: solid;
+    border-width: small;
+}
+
+#aboutme-topright {
+    border-style: solid;
+    border-width: small;
+}
