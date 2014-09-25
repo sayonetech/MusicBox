@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+
+# gen_1M_users.py
+# David Bianco - Sept. 2014
+
 from faker import Factory
 import random
 import uuid
@@ -5,7 +10,6 @@ import json
 from datetime import timedelta, datetime
 
 fake = Factory.create()
-
 
 def random_date(start, end):
     return start + timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
@@ -20,6 +24,9 @@ def new_user(id=0):
     fname = fake.first_name()
     lname = fake.last_name()
     email = fake.safe_email()
+
+    choice_list = ['1'] * 10 + ['2'] * 20 + ['3'] * 35 + ['4'] * 25 + ['5'] * 10
+    freq_wt = random.choice(choice_list)
 
     d1 = datetime.strptime('2010', '%Y')
     d2 = datetime.strptime('8/18/2014', '%m/%d/%Y')
@@ -44,8 +51,8 @@ def new_user(id=0):
     #my_stations =
     #similar_users =
 
-    with open('user_init.csv', 'a') as u_csvfile:
-        print >> u_csvfile, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" % (userid,fname,lname,email,acct_created,last_login,zipcode,birth_year,gender,active,ip_addr)
+    with open('../data/user_init.csv', 'a') as u_csvfile:
+        print >> u_csvfile, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" % (userid,fname,lname,email,freq_wt,acct_created,last_login,zipcode,birth_year,gender,active,ip_addr)
 
     return userid, acct_created, last_login, active
 
@@ -55,80 +62,85 @@ def random_wait():
     return wait_next
 
 
+
+def new_event(u):
+    #d['event'] = 'login'
+    #choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
+    #event_choice = random.choice(choice_list)
+    next_event = 'login'
+    ip4 = fake.ipv4()
+
+    for j in range(num_events_per_user):
+        if j == num_events_per_user - 1:
+            if d['event'] == 'exit':
+                continue
+            else:
+                next_event = 'exit'
+        d = {}
+        d['uid'] = str(uid)
+        d['ip4'] = ip4
+        d['event'] = next_event
+        if d['event'] == 'login':
+            login_date = random_date(begindate, lastdate)
+            new_time = login_date
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'search':
+            phrase = ' '.join(fake.words())
+            d['query'] = phrase
+            #d['query'] = fake.words().join()
+            choice_list = ['play'] * 70 + ['exit'] * 5 + ['search'] * 25
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'play':
+            sid = fake.md5()
+            d['songid'] = sid
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['tup'] * 30 + ['tdn'] * 30 + ['exit'] * 5 + ['pause'] * 5 + ['skip'] * 5 + ['play'] * 25
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'exit':
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            next_event = 'login'
+            ip4 = fake.ipv4()
+        else:
+            d['songid'] = sid
+            d['event'] = next_event
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
+            next_event = random.choice(choice_list)
+
+
+        json.dumps(d)
+        with open('user_events_init_pretty.json', 'a') as prettyfile:
+            res = json.dumps(d, sort_keys=True, indent=4, separators=(',', ': '))
+            prettyfile.write(res)
+            #json.dump(d, prettyfile
+        with open('user_events_init.json', 'a') as outfile:
+            json.dump(d, outfile)
+
 if (__name__ == "__main__"):
-    num_users = 10
-    choice_list = 40
-    #choice_list = ['4'] * 5 + ['40'] * 15 + ['120'] * 30 + ['240'] * 30 + ['400'] * 20
+    num_users = 10000
+    #choice_list = 40
+    choice_list = ['4'] * 5 + ['40'] * 15 + ['120'] * 30 + ['240'] * 30 + ['400'] * 20
     num_events_per_user = int(random.choice(choice_list))
     for i in range(num_users):
         #u = new_user(i)
         (uid,begindate,lastdate,active) = new_user(i)
-        #print u
-        if active:
-            #d['event'] = 'login'
-            #choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-            #event_choice = random.choice(choice_list)
-            next_event = 'login'
-            ip4 = fake.ipv4()
-
-            for j in range(num_events_per_user):
-                if j == num_events_per_user - 1:
-                    if d['event'] == 'exit':
-                        continue
-                    else:
-                        next_event = 'exit'
-                d = {}
-                d['uid'] = str(uid)
-                d['ip4'] = ip4
-                d['event'] = next_event
-                if d['event'] == 'login':
-                    login_date = random_date(begindate, lastdate)
-                    new_time = login_date
-                    d['timestamp'] = datetime.strftime(new_time, '%c')
-                    last_time = new_time
-                    choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-                    next_event = random.choice(choice_list)
-                elif d['event'] == 'search':
-                    phrase = ' '.join(fake.words())
-                    d['query'] = phrase
-                    #d['query'] = fake.words().join()
-                    choice_list = ['play'] * 70 + ['exit'] * 5 + ['search'] * 25
-                    new_time = last_time + timedelta(seconds=random_wait())
-                    d['timestamp'] = datetime.strftime(new_time, '%c')
-                    last_time = new_time
-                    next_event = random.choice(choice_list)
-                elif d['event'] == 'play':
-                    sid = fake.md5()
-                    d['songid'] = sid
-                    new_time = last_time + timedelta(seconds=random_wait())
-                    d['timestamp'] = datetime.strftime(new_time, '%c')
-                    last_time = new_time
-                    choice_list = ['tup'] * 30 + ['tdn'] * 30 + ['exit'] * 5 + ['pause'] * 5 + ['skip'] * 5 + ['play'] * 25
-                    next_event = random.choice(choice_list)
-                elif d['event'] == 'exit':
-                    new_time = last_time + timedelta(seconds=random_wait())
-                    d['timestamp'] = datetime.strftime(new_time, '%c')
-                    last_time = new_time
-                    next_event = 'login'
-                    ip4 = fake.ipv4()
-                else:
-                    d['songid'] = sid
-                    d['event'] = next_event
-                    new_time = last_time + timedelta(seconds=random_wait())
-                    d['timestamp'] = datetime.strftime(new_time, '%c')
-                    last_time = new_time
-                    choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-                    next_event = random.choice(choice_list)
+        #if active:
+            #new_event(u)
 
 
-                json.dumps(d)
-                with open('user_events_init_pretty.json', 'a') as prettyfile:
-                    res = json.dumps(d, sort_keys=True, indent=4, separators=(',', ': '))
-                    prettyfile.write(res)
-                    #json.dump(d, prettyfile
-                with open('user_events_init.json', 'a') as outfile:
-                    json.dump(d, outfile)
-
+# END #
                 #json.dumps(d)
 
                 #print "%s,login,%s" % (uid,login_date)
