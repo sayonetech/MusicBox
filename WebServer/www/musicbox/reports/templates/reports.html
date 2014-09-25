@@ -16,12 +16,15 @@ TIMEFRAME: Total, Today, Yesterday, This Week, Last Week, This Month, Last Month
 <br /> <br /> <br /> <br /> <br />
 <center>
 <form action="/none" method="post">
-    Number of Plays for Song X <br/>
-    Number of Unique Plays for Song X <br/>
-    Number of Thumbs Up for Song X <br/>
-    Number of Thumbs Down for Song X <br/>
-    Number of Skips for Song X <br/>
-    Same for Album Y <br />
+    <input type="radio" name="search_type" value="artist">Artist
+    <input type="radio" name="search_type" value="song">Song
+    <input type="text" name="search_string" value="" size="40">
+    <br/>
+    <select name="timeframe">
+        <option value="last-week">Last Week</option>
+        <option value="last-month">Last Month</option>
+        <option value="last-3months">Last Three Months</option>
+    </select>
 <br />
 <br />
 <input type="submit" name="submit" />

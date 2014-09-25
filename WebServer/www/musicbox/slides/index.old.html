@@ -43,20 +43,16 @@
                     <p> <small>Insight Data Engineer Fellow - Oct. 2014</small> </p>
 				</section>
 
-				<section id="concept">
-                <p>Proof of concept to scale a music recommendation engine which includes reporting based on uniques over time.</p>
-                    <br/>
-                    <br/>
-                    <p>
-                    Ask:  Number of Plays, Number of Thumbs Up, Number of Thumbs Down, Number of Skips 
-                    per Artist/Album over a specifed timeframe.  
-                    </p>
-                    <br/>
-                    <br/>
-                    <p>
-                    Timeframes: Total, Yesterday, This Week, Last Week, 
-                    This Month, Last Month, Last 12 Months, This Year
-                    </p>
+				<section>
+					<h2>Heads Up</h2>
+					<p>
+						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
+						support for CSS 3D transforms to see it in its full glory.
+					</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
 				</section>
 
         <section id="data">
@@ -74,8 +70,8 @@
         </section>
 
         <section id="data-pipeline">
-        <!-- <img src="data-pipeline-2509.jpg" alt="Data-Pipeline"> -->
-            <img src="insight_data_pipeline.png" alt="Data-Pipeline">
+        <h2>Data Pipeline</h2>
+            <img src="data-pipeline-2509.jpg" alt="Data-Pipeline">
         </section>
 
                 <section id="demo">
@@ -87,11 +83,6 @@
                 <section id="about-me">
                     <h2>About Me</h2>
                     <div id="aboutme-topleft">
-                        <!--
-                            <p style="text-align: left">&nbsp;&nbsp;&nbsp;GIS Consultant - Booz Allen Hamilton</p>
-                            <p style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Avid cyclist - raced with PAA Cycling</p>
-                            <p style="text-align: left">Internet Radio DJ - BFF.fm</p>
-                            -->
                         <ul>
                             <li>GIS Consultant - Booz Allen Hamilton</li>
                             <li>Avid cyclist - raced with PAA Cycling</li>
@@ -103,6 +94,66 @@
                     </div>
                     <p><a href="http://davidbianco.net/about-me">http://davidbianco.net/about-me</a></p>
                 </section>
+
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code data-trim contenteditable>
+from flask import Flask, render_template, url_for, redirect, request, flash, session, jsonify
+import happybase
+import json
+
+
+DEBUG = True
+SECRET_KEY = 'fjl34f4984fkl43#(p'
+SERVER_NAME = 'example.org'
+
+app = Flask(__name__)
+
+#from models import db
+#db.init_app(app)
+
+#from flask_mail import Mail
+#mail = Mail(app)
+
+#if not app.debug:
+    #import logging
+    #from logging.handlers import SMTPHandler
+    #'Wedding Website ERROR',
+    #mail_handler.setLevel(logging.WARNING)
+    ##app.logger.addHandler(mail_handler)
+
+					</code></pre>
+					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
+                <section>
+                <p>This is <pre><code>inline code</code></pre></p>
+                <pre><code data-trim>
+This is
+not inline
+code but it does 
+have data-trim
+                </code></pre>
+                <pre><code contenteditable>
+This code
+should be editable
+but without data-trim
+                </code></pre>
+                <pre><code data-trim contenteditable>
+Will this give me 
+the black box
+I desire?
+It has data-trim and editable
+                </code></pre>
+                </section>
+
+				<section>
+					<h2>Export to PDF</h2>
+					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
+					<iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
+					<script>
+						document.getElementById('slideshare').attributeName = 'allowfullscreen';
+					</script>
+				</section>
 
 			</div>
 		</div>
