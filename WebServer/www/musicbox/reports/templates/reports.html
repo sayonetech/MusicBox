@@ -12,21 +12,16 @@
 
 <div class="flash"><strong>{{ message }}</strong></div><br/>
 
-TIMEFRAME: Total, Today, Yesterday, This Week, Last Week, This Month, Last Month, Last 12 Months, This Year <br />
-<br /> <br /> <br /> <br /> <br />
 <center>
 <form action="/none" method="post">
     <input type="radio" name="search_type" value="artist">Artist
     <input type="radio" name="search_type" value="song">Song
     <input type="text" name="search_string" value="" size="40">
-    <br/>
     <select name="timeframe">
         <option value="last-week">Last Week</option>
         <option value="last-month">Last Month</option>
         <option value="last-3months">Last Three Months</option>
     </select>
-<br />
-<br />
 <input type="submit" name="submit" />
 </form>
 </center>
