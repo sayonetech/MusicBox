@@ -52,7 +52,7 @@ def doc():
     return render_template('doc.html')
 
 @app.route('/github')
-def doc():
+def github():
     return render_template('github.html')
 
 @app.errorhandler(404)
