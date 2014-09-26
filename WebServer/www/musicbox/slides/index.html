@@ -65,11 +65,11 @@
             <h2>Data</h2>
             <ul>
                 <li>Million Song Dataset</li>
-                <li>Existing Users*</li>
-                <li>Archive Event Log*</li>
-                <li>Event Stream*: login, search, play, thumbs up/dn, skip</li>
+                <li>Existing Users<small>*</small></li>
+                <li>Archive Event Log<small>*</small></li>
+                <li>Event Stream<small>*</small>: login, search, play, thumbs up/dn, skip</li>
             </ul>
-            <br/> <br/> *simulated<br/> <br/> 
+            <br/> <br/><medium><em><small>*</small>simulated</em></medium><br/> <br/> 
             <p style="text-align: left;"> Volume:&nbsp;&nbsp;&nbsp; ~400 GB </p>
             <p style="text-align: left;"> Velocity:&nbsp;&nbsp;&nbsp; Scale test: 1-1000 events/min </p>
             <p style="text-align: left;"> Variety:&nbsp; Potential to include external API (Songkick, 7digital) </p>
@@ -177,7 +177,7 @@ a7bb8744-f480-4287-8afd-d29085593ff8,Hortensia,Stoltenberg,sarah.cruickshank@exa
         </section>
         <section id="data-events">
         <h2>Data: Events</h2>
-<pre><code>
+<pre><code data-trim>
 def new_event(u):
     next_event = 'login'
     ip4 = fake.ipv4()
@@ -239,19 +239,12 @@ def new_event(u):
         with open('user_events_init.json', 'a') as outfile:
             json.dump(d, outfile)
 </code></pre>
-<pre><code>
+<pre><code data-trim>
 {"timestamp": "Sun Mar 16 17:17:12 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "login"}
 {"timestamp": "Sun Mar 16 17:18:17 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
 {"timestamp": "Sun Mar 16 17:25:25 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "tdn"}
-{"timestamp": "Sun Mar 16 17:29:29 2014", "songid": "198d62dd23acc755a06fd2d04e77be10", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
 {"timestamp": "Sun Mar 16 17:33:35 2014", "songid": "198d62dd23acc755a06fd2d04e77be10", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "skip"}
-{"timestamp": "Sun Mar 16 17:40:39 2014", "songid": "60562bc18216c76743af2e1b2d50dc0a", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
-{"timestamp": "Sun Mar 16 17:41:22 2014", "songid": "60562bc18216c76743af2e1b2d50dc0a", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "tup"}
 {"query": "qui quo voluptatum", "timestamp": "Sun Mar 16 17:45:28 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "search"}
-{"timestamp": "Sun Mar 16 17:49:32 2014", "songid": "b7fc225b3a90795ffa3ed7e8cc331d40", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
-{"timestamp": "Sun Mar 16 17:50:15 2014", "songid": "b7fc225b3a90795ffa3ed7e8cc331d40", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "pause"}
-{"timestamp": "Sun Mar 16 17:51:20 2014", "songid": "f8b83650c2926dd64ce34418cb48db9b", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
-{"timestamp": "Sun Mar 16 17:55:27 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "exit"}
 </code></pre>
         </section>
 
