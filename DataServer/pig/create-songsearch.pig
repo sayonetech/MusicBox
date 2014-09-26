@@ -21,7 +21,7 @@ base1 = foreach base generate CONCAT(artist_name,'::',track_id) as comp_key,
     ,energy
     ,release
     ,similar_artists,song_hotttnesss
-    ,title,track_7digitalid,year);
+    ,title,track_7digitalid,year;
 
 store base1 into 'msd/static-all/songsearch' using PigStorage('\t');
 
