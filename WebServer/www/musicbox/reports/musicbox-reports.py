@@ -51,6 +51,10 @@ def index():
 def doc():
     return render_template('doc.html')
 
+@app.route('/github')
+def doc():
+    return render_template('github.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     return jsonify(error="Invalid API request.")
