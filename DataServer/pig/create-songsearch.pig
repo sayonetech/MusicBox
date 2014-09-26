@@ -9,7 +9,7 @@ base = load 'msd/static-all/songs_20cols' using PigStorage('\t') as (
     duration:chararray,energy:chararray,release:chararray,similar_artists:chararray,
     song_hotttnesss:chararray,title:chararray,track_7digitalid:chararray,year:chararray);
 
-base1 = foreach base generate CONCAT(artist_name,'::',track_id) as comp_key,
+base1 = foreach base generate CONCAT(CONCAT(title,'::'),track_id) as comp_key,
     track_id,artist_familiarity,artist_hotttnesss
     ,artist_id,artist_latitude,artist_location,artist_longitude,
     artist_name,artist_terms,
