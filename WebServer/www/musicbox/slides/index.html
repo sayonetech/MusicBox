@@ -44,33 +44,215 @@
 				</section>
 
 				<section id="concept">
-                <p>Proof of concept to scale a music recommendation engine which includes reporting based on uniques over time.</p>
+                <h2>Challenge</h2>
+                <p>Build a report engine at scale for hundreds of concurrent events for a music recommendation engine</p>
                     <br/>
                     <br/>
                     <p>
-                    Ask:  Number of Plays, Number of Thumbs Up, Number of Thumbs Down, Number of Skips 
+                    <em>Query:</em>  Number of Plays, Number of Thumbs Up, Number of Thumbs Down, Number of Skips 
                     per Artist/Album over a specifed timeframe.  
                     </p>
                     <br/>
                     <br/>
                     <p>
-                    Timeframes: Total, Yesterday, This Week, Last Week, 
+                    <em>Timeframes:</em> Total, Yesterday, This Week, Last Week, 
                     This Month, Last Month, Last 12 Months, This Year
                     </p>
+                    <p><a href="http://insight.davidbianco.net:8008/" target="_blank">Reports Demo</a></p>
 				</section>
 
         <section id="data">
             <h2>Data</h2>
             <ul>
                 <li>Million Song Dataset</li>
-                <li>Existing Users</li>
-                <li>Archive Event Log</li>
-                <li>Event Stream: login, search, play, thumbs up/dn, skip</li>
+                <li>Existing Users*</li>
+                <li>Archive Event Log*</li>
+                <li>Event Stream*: login, search, play, thumbs up/dn, skip</li>
             </ul>
-            <br/> <br/> <br/> <br/>
-            <p style="text-align: left;"> Volume:&nbsp;&nbsp;&nbsp; TBD. ~400 GB </p>
+            <br/> <br/> *simulated<br/> <br/> 
+            <p style="text-align: left;"> Volume:&nbsp;&nbsp;&nbsp; ~400 GB </p>
             <p style="text-align: left;"> Velocity:&nbsp;&nbsp;&nbsp; Scale test: 1-1000 events/min </p>
-            <p style="text-align: left;"> Variety:&nbsp;&nbsp; Potential to inlcude external API (Songkick, 7digital) </p>
+            <p style="text-align: left;"> Variety:&nbsp; Potential to include external API (Songkick, 7digital) </p>
+        </section>
+        <section id="data-songs">
+        <h2>Data: Music</h2>
+<pre><code>
+base = load 'msd/static-all/songs_20cols' using PigStorage('\t') as (
+    track_id:chararray,
+    artist_familiarity:chararray,
+    artist_hotttnesss:chararray,
+    artist_id:chararray,
+    artist_latitude:chararray,
+    artist_location:chararray,
+    artist_longitude:chararray,
+    artist_name:chararray,
+    artist_terms:chararray,
+    artist_terms_freq:chararray,
+    artist_terms_weight:chararray,
+    danceability:chararray,
+    duration:chararray,
+    energy:chararray,
+    release:chararray,
+    similar_artists:chararray,
+    song_hotttnesss:chararray,
+    title:chararray,
+    track_7digitalid:chararray,
+    year:chararray);
+
+base1 = foreach base generate 
+    CONCAT(CONCAT(title,'::'),track_id) as comp_key,
+    track_id,
+    artist_familiarity,
+    artist_hotttnesss,
+    artist_id,
+    artist_latitude,
+    artist_location,
+    artist_longitude,
+    artist_name,
+    artist_terms,
+    artist_terms_freq,
+    artist_terms_weight,
+    danceability,
+    duration,
+    energy,
+    release,
+    similar_artists,
+    song_hotttnesss,
+    title,
+    track_7digitalid,
+    year;
+
+store base1 into 'msd/static-all/songsearch' using PigStorage('\t');
+</code></pre>
+        <pre><code data-trim>
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.columns=HBASE_ROW_KEY,info:track_id,info:artist_familiarity,info:artist_hotttnesss,info:artist_id,info:artist_latitude,info:artist_location,info:artist_longitude,info:artist_name,info:artist_terms,info:artist_terms_freq,info:artist_terms_weight,info:danceability,info:duration,info:energy,info:release,info:similar_artists,info:song_hotttnesss,info:title,info:track_7digitalid,info:year 
+song_search msd/static-all/songsearch</code></pre>
+        </section>
+        <section id="data-users">
+        <h2>Data: Users</h2>
+        <pre><code>
+def new_user(id=0):
+
+    a = 1
+    if id % 100 == 0:
+        a = 0
+
+    userid = uuid.uuid4()
+    fname = fake.first_name()
+    lname = fake.last_name()
+    email = fake.safe_email()
+
+    choice_list = ['1'] * 10 + ['2'] * 20 + ['3'] * 35 + ['4'] * 25 + ['5'] * 10
+    freq_wt = random.choice(choice_list)
+
+    d1 = datetime.strptime('2010', '%Y')
+    d2 = datetime.strptime('8/18/2014', '%m/%d/%Y')
+    d3 = random_date(d1, d2)
+    acct_created = d3
+
+    d4 = datetime.strptime('9/18/2014', '%m/%d/%Y')
+    last_login = random_date(d3, d4)
+
+    zipcode = fake.zipcode()
+
+    y1 = datetime.strptime('1930', '%Y')
+    y2 = datetime.strptime('2000', '%Y')
+    birth_year = datetime.strftime(random_date(y1, y2), '%Y')
+
+    gender = random.choice(["M", "F"])
+    active = a
+    ip_addr = fake.ipv4()
+    #my_stations =
+    #similar_users =
+
+    with open('../data/user_init.csv', 'a') as u_csvfile:
+        print >> u_csvfile, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" % (userid,fname,lname,email,freq_wt,acct_created,last_login,zipcode,birth_year,gender,active,ip_addr)
+</code></pre>
+<pre><code>
+a7bb8744-f480-4287-8afd-d29085593ff8,Hortensia,Stoltenberg,sarah.cruickshank@example.com,2010-12-15 07:41:27,2012-03-21 13:44:31,53968,1935,M,0,21.244.73.21
+174149dc-713d-4979-8bb4-4b8f6076712e,Jairo,Waelchi,kadeem76@example.net,2012-03-21 18:48:30,2013-09-07 18:09:29,86844,1988,M,1,200.121.208.163
+214496db-0dc6-45dc-bd95-346f2b44ce43,Breanna,Sauer,sherry.kutch@example.net,2014-02-24 09:33:51,2014-08-18 16:43:03,04356,1949,F,1,93.119.40.125
+6c6c1a8a-0934-4ef5-951a-51ac675736d6,Lanette,Daugherty,gosinski@example.net,2011-06-20 18:54:06,2013-11-30 15:13:06,56956,1942,F,1,30.149.63.80
+</code></pre>
+        </section>
+        <section id="data-events">
+        <h2>Data: Events</h2>
+<pre><code>
+def new_event(u):
+    next_event = 'login'
+    ip4 = fake.ipv4()
+
+    for j in range(num_events_per_user):
+        if j == num_events_per_user - 1:
+            if d['event'] == 'exit':
+                continue
+            else:
+                next_event = 'exit'
+        d = {}
+        d['uid'] = str(uid)
+        d['ip4'] = ip4
+        d['event'] = next_event
+        if d['event'] == 'login':
+            login_date = random_date(begindate, lastdate)
+            new_time = login_date
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'search':
+            phrase = ' '.join(fake.words())
+            d['query'] = phrase
+            #d['query'] = fake.words().join()
+            choice_list = ['play'] * 70 + ['exit'] * 5 + ['search'] * 25
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'play':
+            sid = fake.md5()
+            d['songid'] = sid
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['tup'] * 30 + ['tdn'] * 30 + ['exit'] * 5 + ['pause'] * 5 + ['skip'] * 5 + ['play'] * 25
+            next_event = random.choice(choice_list)
+        elif d['event'] == 'exit':
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            next_event = 'login'
+            ip4 = fake.ipv4()
+        else:
+            d['songid'] = sid
+            d['event'] = next_event
+            new_time = last_time + timedelta(seconds=random_wait())
+            d['timestamp'] = datetime.strftime(new_time, '%c')
+            last_time = new_time
+            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
+            next_event = random.choice(choice_list)
+
+        json.dumps(d)
+        with open('user_events_init_pretty.json', 'a') as prettyfile:
+            res = json.dumps(d, sort_keys=True, indent=4, separators=(',', ': '))
+            prettyfile.write(res)
+            #json.dump(d, prettyfile
+        with open('user_events_init.json', 'a') as outfile:
+            json.dump(d, outfile)
+</code></pre>
+<pre><code>
+{"timestamp": "Sun Mar 16 17:17:12 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "login"}
+{"timestamp": "Sun Mar 16 17:18:17 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
+{"timestamp": "Sun Mar 16 17:25:25 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "tdn"}
+{"timestamp": "Sun Mar 16 17:29:29 2014", "songid": "198d62dd23acc755a06fd2d04e77be10", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
+{"timestamp": "Sun Mar 16 17:33:35 2014", "songid": "198d62dd23acc755a06fd2d04e77be10", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "skip"}
+{"timestamp": "Sun Mar 16 17:40:39 2014", "songid": "60562bc18216c76743af2e1b2d50dc0a", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
+{"timestamp": "Sun Mar 16 17:41:22 2014", "songid": "60562bc18216c76743af2e1b2d50dc0a", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "tup"}
+{"query": "qui quo voluptatum", "timestamp": "Sun Mar 16 17:45:28 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "search"}
+{"timestamp": "Sun Mar 16 17:49:32 2014", "songid": "b7fc225b3a90795ffa3ed7e8cc331d40", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
+{"timestamp": "Sun Mar 16 17:50:15 2014", "songid": "b7fc225b3a90795ffa3ed7e8cc331d40", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "pause"}
+{"timestamp": "Sun Mar 16 17:51:20 2014", "songid": "f8b83650c2926dd64ce34418cb48db9b", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
+{"timestamp": "Sun Mar 16 17:55:27 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "exit"}
+</code></pre>
         </section>
 
         <section id="data-pipeline">
@@ -78,11 +260,13 @@
             <img src="insight_data_pipeline.png" alt="Data-Pipeline">
         </section>
 
+        <!--
                 <section id="demo">
                     <h2>Demo</h2>
                     <p><a href="http://insight.davidbianco.net/" target="_blank">UI Demo</a></p>
                     <p><a href="http://insight.davidbianco.net:8008/" target="_blank">Reports Demo</a></p>
                 </section>
+                -->
 
                 <section id="about-me">
                     <h2>David Bianco</h2>
