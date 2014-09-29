@@ -38,7 +38,7 @@ def generate_playlist(track_id):
         sim_artists = row['info:similar_artists'].split(',')
         html += row['info:similar_artists']
         html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
-        html += "<td>" + row['info:title'] + "</td><td>" + sim_artists + "</td></tr>\n"
+        html += "<td>" + row['info:title'] + "</td><td>" + sim_artists[0] + "</td></tr>\n"
 
         sim_artists = row['info:similar_artists'].split(',')
 
