@@ -28,9 +28,14 @@ connection = happybase.Connection('cluster.davidbianco.net')
 
 
 @app.route('/search/song/<song>')
-def search_song(song=False);
+def search_song(song=False):
     table = connection.table('song_search')
-    row = table.row(song)
+    if not song:
+        row['error'] = "Invalid search request"
+    else:
+        #row = table.row(song)
+        rows = table.scan(row_prefix=song)
+
     return jsonify(**row)
 
 @app.route('/api/v1/info/song/<event>/<time>')
