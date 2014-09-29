@@ -46,7 +46,7 @@ def generate_playlist(track_id):
     return render_template('playlist.html', html=html)
 
 
-@app.route('/search', method=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
     # artist image http://api.7digital.com/1.2/artist/details?artistId=1&imageSize=200&oauth_consumer_key=7d5kwsncn39p
     # song preview http://previews.7digital.com/clip/4308713?oauth_consumer_key=7d5kwsncn39p&country=US
