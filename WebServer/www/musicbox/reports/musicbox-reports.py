@@ -41,9 +41,18 @@ def generate_playlist(track_id):
         html += "<td>" + row['info:title'] + "</td><td>" + sim_artists[0] + "</td></tr>\n"
 
         sim_artists = row['info:similar_artists'].split(',')
+        no_record = True
+        while no_record:
+            for sim_artist in sim_artists:
+                row2 = table2.row(sim_artist)
+                html += row2
 
-        #row2 = table2.row(sim_artists[0])
-        #track_id = row2['info:track_id']
+                if row2:
+                    track_id = row2['info:track_id']
+                    no_record = False
+
+            html += "no artist found"
+            no_record = False
 
     html += "\n</table>\n"
 
