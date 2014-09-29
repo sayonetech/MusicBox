@@ -32,17 +32,20 @@ connection = happybase.Connection('cluster.davidbianco.net')
 def generate_playlist(track_id):
     table = connection.table('song_info_20cols')
     table2 = connection.table('artist_info_20cols')
-    html = "<table><tr><th>Artist</th><th>Album</th><th>Song</th><th>Duration</th></tr>"
+    html = "\n<table>\n<tr><th>Artist</th><th>Album</th><th>Song</th><th>Duration</th></tr>\n"
     for i in range(10):
         row = table.row(track_id)
+        sim_artists = row['info:similar_artists'].split(',')
+        html += row['info:similar_artists']
         html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
-        html += "<td>" + row['info:title'] + "</td><td>" + row['info:duration'] + "</td></tr>"
+        html += "<td>" + row['info:title'] + "</td><td>" + sim_artists + "</td></tr>\n"
 
         sim_artists = row['info:similar_artists'].split(',')
+
         #row2 = table2.row(sim_artists[0])
         #track_id = row2['info:track_id']
 
-    html += "</table>"
+    html += "\n</table>\n"
 
     return render_template('playlist.html', html=html)
 
