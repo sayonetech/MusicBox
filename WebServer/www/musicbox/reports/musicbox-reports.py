@@ -36,12 +36,12 @@ def generate_playlist(track_id):
     for i in range(10):
         row = table.row(track_id)
         sim_artists = row['info:similar_artists'].split(',')
-        html += row['info:similar_artists']
-        html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
-        html += "<td>" + row['info:title'] + "</td><td>" + sim_artists[0] + "</td></tr>\n"
+        #html += row['info:similar_artists']
+        #html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
+        #html += "<td>" + row['info:title'] + "</td><td>" + sim_artists[0] + "</td></tr>\n"
 
         sim_artists = row['info:similar_artists'].split(',')
-        html += str(sim_artists)
+        #html += str(sim_artists)
         no_record = True
         while no_record:
             for sim_artist in sim_artists:
