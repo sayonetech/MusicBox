@@ -37,9 +37,10 @@ def generate_playlist(track_id):
         row = table.row(track_id)
         html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
         html += "<td>" + row['info:title'] + "</td><td>" + row['info:duration'] + "</td></tr>"
+
         sim_artists = row['info:similar_artists'].split(',')
-        row2 = table2.row(sim_artists[0])
-        track_id = row2['info:track_id']
+        #row2 = table2.row(sim_artists[0])
+        #track_id = row2['info:track_id']
 
     html += "</table>"
 
