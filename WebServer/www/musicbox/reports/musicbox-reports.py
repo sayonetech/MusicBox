@@ -67,20 +67,33 @@ def search():
     # song preview http://previews.7digital.com/clip/4308713?oauth_consumer_key=7d5kwsncn39p&country=US
     pass
 
-@app.route('/search/song/<song>')
-def search_song(song=False):
-    table = connection.table('song_search')
+@app.route('/search/<q_type>/<q_string>')
+def search_song(q_type=False, q_string=False):
+    song_table = connection.table('song_search')
+    artist_table = connection.table('artist_search')
     print table
-    if song:
+    datas = {}
+    if q_type == 'song':
         #row = table.row(song)
-        song = song + '::'
-        rows = table.scan(row_prefix=song)
+        song = q_string + '::'
+        rows = song_table.scan(row_prefix=song)
         print rows
         if not rows:
             datas['error'] = "Song not found"
             datas['query'] = song
-        for key, data in rows:
-            datas = data
+        else:
+            for key, data in rows:
+                datas = data
+    elif q_type == 'artist':
+        artist = q_string + '::'
+        rows = artist_table.scan(row_prefix=artist)
+        print rows
+        if not rows:
+            datas['error'] = "Arist not found"
+            datas['query'] = q_string
+        else:
+            for key, data in rows:
+                datas = data
     else:
         datas['error'] = "Invalid search request"
 
