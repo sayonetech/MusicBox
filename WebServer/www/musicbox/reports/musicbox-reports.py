@@ -71,10 +71,8 @@ def search():
 def search_song(q_type=False, q_string=False):
     song_table = connection.table('song_search')
     artist_table = connection.table('artist_search')
-    print table
     datas = {}
     if q_type == 'song':
-        #row = table.row(song)
         song = q_string + '::'
         rows = song_table.scan(row_prefix=song)
         print rows
