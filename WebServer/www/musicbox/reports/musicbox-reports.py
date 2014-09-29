@@ -34,6 +34,7 @@ def search_song(song=False):
         row['error'] = "Invalid search request"
     else:
         #row = table.row(song)
+        song = song + '::'
         rows = table.scan(row_prefix=song)
         for key, data in rows:
             datas = data
