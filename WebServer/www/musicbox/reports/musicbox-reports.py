@@ -31,11 +31,14 @@ connection = happybase.Connection('cluster.davidbianco.net')
 def search_song(song=False):
     table = connection.table('song_search')
     if not song:
-        row['error'] = "Invalid search request"
+        datas['error'] = "Invalid search request"
     else:
         #row = table.row(song)
         song = song + '::'
         rows = table.scan(row_prefix=song)
+        if not rows:
+            datas['error'] = "Song not found"
+            datas['query'] = song
         for key, data in rows:
             datas = data
 
