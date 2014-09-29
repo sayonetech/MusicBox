@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request, flash, session, jsonify
 import happybase
 import json
+import subprocess
 
 
 DEBUG = True
@@ -106,6 +107,12 @@ def register():
                 timestamp=timestamp, ip4=ip4, event=event)
 
     return render_template('register.html')
+
+@app.route("/view-events")
+def view_events():
+    logfile = "/var/log/events.log"
+    events = subprocess.Popen(['tail', '-80', logfile], stdout = subprocess.PIPE).communicate()[0]
+    render_template('view-events.html', events=events)
 
 
 if __name__ == "__main__":
