@@ -2,13 +2,23 @@ from flask import Flask, render_template, url_for, redirect, request, flash, ses
 import happybase
 import json
 import subprocess
+import os
+from kafka import KafkaClient, SimpleProducer
 
+kafka = KafkaClient('cluster.davidbianco.net:2181')
+producer = SimpleProducer(kafka)
+kafka_topic = "event_log"
+
+connection = happybase.Connection('cluster.davidbianco.net')
 
 DEBUG = True
-SECRET_KEY = 'fjl34f4984fkl43#(p'
 SERVER_NAME = 'davidbianco.net'
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+app.debug = True
+#app.server_name = 'davidbianco.net'
+
 #app.config.from_object('wedding_site.app.config')
 
 #from models import db
@@ -37,29 +47,44 @@ connection = happybase.Connection('cluster.davidbianco.net')
 def report():
     return render_template('report.html')
 
+@app.route("/user/<userid>/<event>")
+def non_listen(userid=False, event=False):
+    if event == 'search':
+        pass
+    elif event == 'exit':
+        pass
 
 @app.route("/listen", methods=['GET', 'POST'])
-@app.route("/listen/<event>", methods=['GET', 'POST'])
-def listen(event=False):
+@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
+@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
+def listen(userid=False, event=False, songid=False):
+    ''' tup, tdn, skip, pause, play '''
     if request.method == 'POST':
-        d = {}
-        d['userid'] = 'fdj8a97sf'
-        d['timestamp'] = 'Fri Sep 19 20:22:04 2014'
-        d['songid'] = 'TRO786TE769'
-        d['ip4'] = '23.123.3.24'
-        event_json = ''
+        message = {}
+        #message['userid'] = 'fdj8a97sf'
+        message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
+        #message['songid'] = 'TRO786TE769'
+        message['ip4'] = '23.123.3.24'
+        message['event'] = event
+        message['songid'] = songid
+        #event_json = ''
+        event_json = json.dumps(message, indent=4, separators=(',', ': '))
+        producer.send_messages(kafka_topic, event_json)
         if event == 'tup':
-            d['event'] = event
+            message['event'] = event
             event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        if event == 'tdn':
-            d['event'] = event
+        elif event == 'tdn':
+            message['event'] = event
             event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        if event == 'skip':
-            d['event'] = event
+        elif event == 'skip':
+            message['event'] = event
             event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        if event == 'pause':
-            d['event'] = event
+        elif event == 'pause':
+            message['event'] = event
             event_json = json.dumps(d, indent=4, separators=(',', ': '))
+        elif event == 'play':
+            message['event'] = event
+            pass
         return render_template('listen.html', event_json=event_json)
     return render_template('listen.html')
 
@@ -75,15 +100,15 @@ def search(q=False):
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        d = {}
-        d['userid'] = 'r3kj4f2'
-        d['event'] = 'login'
-        d['timestamp'] = '2014'
-        d['ip4'] = '131.143.1.123'
-        return jsonify(userid=d['userid'],
-                    event=d['event'],
-                    timestamp=d['timestamp'],
-                    ip4=d['ip4'])
+        message = {}
+        message['userid'] = 'r3kj4f2'
+        message['event'] = 'login'
+        message['timestamp'] = '2014'
+        message['ip4'] = '131.143.1.123'
+        return jsonify(userid=message['userid'],
+                    event=message['event'],
+                    timestamp=message['timestamp'],
+                    ip4=message['ip4'])
     return render_template('login.html')
 
 @app.route("/register", methods=['GET', 'POST'])

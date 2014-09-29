@@ -1,86 +1,43 @@
-from faker import Factory
+import subprocess
+import happybase
+import sys
 import random
-import uuid
-import json
-from datetime import timedelta, datetime
 
-fake = Factory.create()
+connection = happybase.Connection('cluster.davidbianco.net')
 
-class User():
-    def __init__(self):
-        self.userid = uid
-        self.freq_weight = freq_weight
+def generator(start_userid, num):
+    limit = sys.argv[1] or 10
+    user_ids = []
+    table = connection.table('user_info')
 
+    for key, data in table.scan(row_start=start_userid, limit=num):
+        user_ids.append(key)
 
-def user_login():
-# select active, non-listening user and spawn new listening process
-# listen table, user table 1=active
-    pass
+    for user_id in user_ids:
+        subprocess.popen('event_gen_worker.py',user_id)
 
-def generator():
+    return start_userid
+
 # get list of active users and frequency from database
 # choose active listener
 # user login every X minutes, spawn child process
 # generate new user every X minutes
 # deactivate user every 1 hour ?
-    pass
-
-def generate():
-    pass
-def user_login():
-    pass
-
-
-def random_date(start, end):
-    return start + timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
-
-def new_user(id=0):
-    ''' Generate a new user. '''
-    a = 1
-    if id % 100 == 0:
-        a = 0
-
-    userid = uuid.uuid4()
-    fname = fake.first_name()
-    lname = fake.last_name()
-    email = fake.safe_email()
-
-    d1 = datetime.strptime('2010', '%Y')
-    d2 = datetime.strptime('8/18/2014', '%m/%d/%Y')
-    d3 = random_date(d1, d2)
-    acct_created = d3
-    #acct_created = fake.iso8601()
-
-    d4 = datetime.strptime('9/18/2014', '%m/%d/%Y')
-    last_login = random_date(d3, d4)
-    #last_login = fake.iso8601()
-
-    zipcode = fake.zipcode()
-
-    y1 = datetime.strptime('1930', '%Y')
-    y2 = datetime.strptime('2000', '%Y')
-    birth_year = datetime.strftime(random_date(y1, y2), '%Y')
-    #birth_year = fake.year()
-
-    gender = random.choice(["M", "F"])
-    active = a
-    ip_addr = fake.ipv4()
-    #my_stations =
-    #similar_users =
-
-    with open('user_init.csv', 'a') as u_csvfile:
-        print >> u_csvfile, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s" % (userid,fname,lname,email,acct_created,last_login,zipcode,birth_year,gender,active,ip_addr)
-
-    return userid, acct_created, last_login, active
 
 def random_wait():
-    wait_mins = (43, 65, 244, 245, 246, 247, 422, 424, 425, 428, 600)
+    wait_mins = (0, 43, 65, 244, 245, 246, 247, 422, 424, 425, 428, 600)
     wait_next = random.choice(wait_mins)
     return wait_next
 
 
 if (__name__ == "__main__"):
-    pass
+    num = sys.argv[1] or 10
+    start_userid = '0003df7f-d6a7-4298-8260-e09c8167f74e'
+    while True:
+        next_userid = generator(start_userid, num)
+        sleep(random_wait())
+        start_userid = next_userid
+        num = random.choice([1, 2, 4, 8, 16, 32, 64,]) # 128, 256, 512, 1024
 
 def generate_event():
     num_users = 10
