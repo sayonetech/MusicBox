@@ -112,7 +112,7 @@ def register():
 def view_events():
     logfile = "/var/log/events.log"
     events = subprocess.Popen(['tail', '-80', logfile], stdout = subprocess.PIPE).communicate()[0]
-    render_template('view-events.html', events=events)
+    return render_template('view-events.html', events=events)
 
 
 if __name__ == "__main__":
