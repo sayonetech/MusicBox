@@ -5,7 +5,7 @@ _Note: This project is very beta, and is being polished as we speak._
 ## Lots of moving parts
 In order to create a mock Music Listening app, several parts of the puzzle were created from scratch.   
 ##### Software
-* Several datasets were created with simulated data to create a historic timeline of users and events.  The Million Song Dataset was used as the music dataset.
+
 * The general flow starts with an automated event generator which creates listen-events at random time intervals for a configurable number of active listeners (1-1000).  The python generator script sends a request to the webserver which uses nginx, uWSGI, Flask, and Bootstrap. 
 * Kafka receives these messages, and once an hour a collector script stores them in HDFS.  Currently, Kafka is a single server.
 * The Hadoop cluster contains one name node and three data nodes, all running on Ubuntu 12.10 64-bit.
@@ -15,6 +15,8 @@ In order to create a mock Music Listening app, several parts of the puzzle were 
 * Lastly, a second webserver is implemented to separate listener activity from report data requests.
 
 ##### Data
+Several datasets were created with simulated data to create a historic timeline of users and events.  The Million Song Dataset was used as the music dataset.  
+
 HBase Table | Description | Row Key
 ----------- | ----------- | --------
 artist_info | Lookup table of artists by ARTIST_ID | AR87439FDL8349DF
