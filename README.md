@@ -29,7 +29,7 @@ song_event_log | Historical event messages aggregated by day for a specific song
 
 
 ## Data Pipeline
-![Alt Text](https://github.com/talldave/MusicBox/blob/master/WebServer/www/musicbox/slides/img/insight_data_pipeline.png "Data Pipeline")  
+![Data Pipeline](https://github.com/talldave/MusicBox/blob/master/WebServer/www/musicbox/slides/img/insight_data_pipeline.png "Data Pipeline")  
 There are several flows of information here.  First, we have a number of listeners who make a request to the webserver.  This is for a specific user event: search, play, pause, skip, thumbs-up, thumbs-down, exit.   For search and play the request is sent directly to Hbase to retrieve the requested information (search results or mp3).  Playing an mp3 is not yet implemented, I will soon add a preview clip from 7digital.
 In addition to contacting Hbase, and for all other requests, an event message is generated and sent to the Kafka message queue in JSON format.  
 

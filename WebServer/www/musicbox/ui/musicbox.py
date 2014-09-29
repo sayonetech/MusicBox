@@ -5,7 +5,7 @@ import subprocess
 import os
 from kafka import KafkaClient, SimpleProducer
 
-kafka = KafkaClient('cluster.davidbianco.net:2181')
+kafka = KafkaClient('cluster.davidbianco.net:8092')
 producer = SimpleProducer(kafka)
 kafka_topic = "event_log"
 
