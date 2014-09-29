@@ -5,13 +5,13 @@
 ## Lot of moving parts
 In order to create a mock Music Listening app, several parts of the puzzle were created from scratch.   
 
-* The general flow starts with an automated event generator which creates listen-events at random time intervals for a configurable number of active listeners (1-1000).  This event is generated from the webserver which uses nginx, uWSGI, Flask, and Bootstrap. 
+* The general flow starts with an automated event generator which creates listen-events at random time intervals for a configurable number of active listeners (1-1000).  The python generator script sends a request to the webserver which uses nginx, uWSGI, Flask, and Bootstrap. 
 * Kafka receives these messages, and once an hour a collector script stores them in HDFS.  Currently, Kafka is a single server.
 * The Hadoop cluster contains one name node and three data nodes, all running on Ubuntu 12.10 64-bit.
 * A python collector script is run every hour to take messages from Kafka and store them in HDFS.  
 * Every night a Hive cron job aggregates the day's data and adds a row to the HBase event_log table.
 * HBase is used as the NoSQL datastore and uses the same 4-node cluster as Hadoop
-* Lastly, a second webserver is implemented to separate listener activity from report data requests
+* Lastly, a second webserver is implemented to separate listener activity from report data requests.
 
 
 
