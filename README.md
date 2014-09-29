@@ -3,6 +3,18 @@
 <Note: This project is very beta, and is being polished as we speak.>
 
 ## Lot of moving parts
+In order to create a mock Music Listening app, several parts of the puzzle were created from scratch.   
+
+* The general flow starts with an automated event generator which creates listen-events at random time intervals for a configurable number of active listeners (1-1000).  This event is generated from the webserver which uses nginx, uWSGI, Flask, and Bootstrap. 
+* Kafka receives these messages, and once an hour a collector script stores them in HDFS.  Currently, Kafka is a single server.
+* The Hadoop cluster contains one name node and three data nodes, all running on Ubuntu 12.10 64-bit.
+* A python collector script is run every hour to take messages from Kafka and store them in HDFS.  
+* Every night a Hive cron job aggregates the day's data and adds a row to the HBase event_log table.
+* HBase is used as the NoSQL datastore and uses the same 4-node cluster as Hadoop
+* Lastly, a second webserver is implemented to separate listener activity from report data requests
+
+
+
 ## Data Pipeline
 ![Alt Text](https://github.com/talldave/MusicBox/blob/master/WebServer/www/musicbox/slides/img/insight_data_pipeline.png "Data Pipeline")  
 There are several flows of information here.  First, we have a number of listeners who make a request to the webserver.  This is for a specific user event: search, play, pause, skip, thumbs-up, thumbs-down, exit.   For search and play the request is sent directly to Hbase retrieve the requested information (search results or mp3).  Playing an mp3 is not yet implemented, I will soon add a preview clip from 7digital.
