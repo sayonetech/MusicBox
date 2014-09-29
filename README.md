@@ -5,6 +5,7 @@
 ## Lot of moving parts
 In order to create a mock Music Listening app, several parts of the puzzle were created from scratch.   
 
+* Several datasets were created with simulated data to create a historic timeline of users and events.  The Million Song Dataset was used as the music dataset.
 * The general flow starts with an automated event generator which creates listen-events at random time intervals for a configurable number of active listeners (1-1000).  The python generator script sends a request to the webserver which uses nginx, uWSGI, Flask, and Bootstrap. 
 * Kafka receives these messages, and once an hour a collector script stores them in HDFS.  Currently, Kafka is a single server.
 * The Hadoop cluster contains one name node and three data nodes, all running on Ubuntu 12.10 64-bit.
@@ -13,6 +14,16 @@ In order to create a mock Music Listening app, several parts of the puzzle were 
 * HBase is used as the NoSQL datastore and uses the same 4-node cluster as Hadoop
 * Lastly, a second webserver is implemented to separate listener activity from report data requests.
 
+##### Data
+HBase Table | Description | Row Key
+----------- | ----------- | --------
+artist_info | Lookup table of artists by ARTIST_ID | AR87439FDL8349DF
+artist_search | Search table of artists by ARTIST_NAME::ARTIST_ID | The Black Crows::AR3424FLDJ93F3
+song_info | Lookup table of songs by TRACK_ID | TR343LDFKJ34881KF
+song_search | Search table of songs by TITLE::TRACK_ID | Guero Canelo::TR3400FDKLJ3437KJ
+user_info | List of users by USER_ID | 8c24dbaf-e50e-4b47-9fd6-da426752b6d4
+artist_event_log | Historical event messages aggregated by day for a specific artist | AR3424FLDJ93F3_20140213
+song_event_log | Historical event messages aggregated by day for a specific song | TR3400FDKLJ3437KJ_20130514
 
 
 ## Data Pipeline
