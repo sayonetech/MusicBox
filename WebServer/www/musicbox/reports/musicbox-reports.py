@@ -35,8 +35,10 @@ def search_song(song=False):
     else:
         #row = table.row(song)
         rows = table.scan(row_prefix=song)
+        for key, data in rows:
+            datas = data
 
-    return jsonify(**rows)
+    return jsonify(**datas)
 
 @app.route('/api/v1/info/song/<event>/<time>')
 def get_song_info(event=False, time=False):
