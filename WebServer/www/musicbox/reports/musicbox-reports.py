@@ -4,7 +4,7 @@ import json
 
 
 DEBUG = True
-SECRET_KEY = 'fjl34f4984fkl43#(p'
+SECRET_KEY = 'fjl3lf4846kl43#(p'
 SERVER_NAME = 'davidbianco.net'
 
 app = Flask(__name__)
@@ -23,9 +23,33 @@ if True:
         '[in %(pathname)s:%(lineno)d]'
     ))
 
+oauth_consumer_key = '7d5kwsncn39p'
+oauth_consumer_secret = 'at728qxu6zkusyh4'
 
 connection = happybase.Connection('cluster.davidbianco.net')
 
+@app.route('/playlist-test/<track_id>')
+def generate_playlist(track_id):
+    table = connection.table('song_info')
+    html = "<table><tr><th>Artist</th><th>Album</th><th>Song</th><th>Duration</th></tr>"
+    for i in range(10):
+        row = table.row(track_id)
+        html += "<tr><td>" + row['info:artist_name'] + "</td><td>" + row['info:release'] + "</td>"
+        html += "<td>" + row['info:title'] + "</td><td>" + row['info:duration'] + "</td></tr>"
+        sim_artists = row['info:similar_artists'].split(',')
+        table2 = connection.table('artist_info')
+        row2 = table.row(sim_artists[0])
+        track_id = row2['info:track_id']
+
+    html += "</table>"
+
+    return render_template('playlist.html', html=html)
+
+
+@app.route('/search', method=['GET', 'POST'])
+def search():
+    # artist image http://api.7digital.com/1.2/artist/details?artistId=1&imageSize=200&oauth_consumer_key=7d5kwsncn39p
+    # song preview http://previews.7digital.com/clip/4308713?oauth_consumer_key=7d5kwsncn39p&country=US
 
 @app.route('/search/song/<song>')
 def search_song(song=False):
