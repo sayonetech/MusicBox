@@ -27,9 +27,16 @@ if True:
 connection = happybase.Connection('cluster.davidbianco.net')
 
 
+@app.route('/search/song/<song>')
+def search_song(song=False);
+    table = connection.table('song_search')
+    row = table.row(song)
+    return jsonify(**row)
+
 @app.route('/api/v1/info/song/<event>/<time>')
 def get_song_info(event=False, time=False):
-    pass
+    table = connection.table('song_search')
+    row = table.row(song)
 
 @app.route('/api/v1/info/artist/<event>/<time>')
 def get_artist_info(event=False, time=False):
