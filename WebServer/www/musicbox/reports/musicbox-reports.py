@@ -46,6 +46,7 @@ def generate_playlist(track_id):
         while no_record:
             for sim_artist in sim_artists:
                 #row2 = table2.row(sim_artist)
+                row2 = False
                 html += str(row2)
 
                 if row2:
