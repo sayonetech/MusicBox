@@ -62,6 +62,9 @@
                     <p><a href="http://insight.davidbianco.net:8008/" target="_blank">Reports Demo</a></p>
 				</section>
 
+        <section id="demo" data-background="img/demo.jpg">
+        </section>
+
         <section id="data">
             <h2>Data</h2>
             <ul>
@@ -79,160 +82,56 @@
         <section id="data-pipeline" data-background="img/insight_data_pipeline.png">
         </section>
 
-        <section id="data-genevent" data-background="img/insight_data_pipeline.png">
-            <h2>Data/Code: Event Generator</h2>
-            <pre><code data-trim>
-def new_event(user_id):
-    next_event = 'login'
-    user_is_active = True
-    #ip4 = fake.ipv4()
-
-    while user_is_active:
-        d = {}
-        d['ip4'] = ip4
-        url = 'http://insight.davidbianco.net/user/' + user_id + '/' + event
-        if next_event == 'login':
-            r = requests.get(url)
-            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-            next_event = random.choice(choice_list)
-        elif next_event == 'search':
-            #search_query = 'love'
-            search_query = urllib.quote_plus(search_query)
-            url += '/song/' + search_query
-            r = requests.get(url)
-            choice_list = ['play'] * 70 + ['exit'] * 5 + ['search'] * 25
-            next_event = random.choice(choice_list)
-        elif next_event == 'play':
-            url += '/song/' + song_id
-            r = requests.get(url)
-            choice_list = ['tup'] * 30 + ['tdn'] * 30 + ['exit'] * 5 + ['pause'] * 5 + ['skip'] * 5 + ['play'] * 25
-            next_event = random.choice(choice_list)
-        elif next_event == 'exit':
-            r = requests.get(url)
-            user_is_active = False
-        else:
-            # tup, tdn, pause, skip
-            url += '/song/' + song_id
-            r = requests.get(url)
-            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-            next_event = random.choice(choice_list)
-            </code></pre>
+        <section id="data-pipeline" data-background="img/insight_data_pipeline.png">
+            <img src="img/ui.jpg"/>
         </section>
 
         <section id="data-produce" data-background="img/insight_data_pipeline.png">
-            <h2>Data/Code: Produce Message</h2>
             <pre><code data-trim>
 @app.route("/listen", methods=['GET', 'POST'])
-@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
-@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
+@app.route("/listen/user/userid/event", methods=['GET', 'POST'])
+@app.route("/listen/user/userid/event/song/songid", methods=['GET', 'POST'])
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
-    if request.method == 'POST':
-        message = {}
-        message['event'] = event
-        message['songid'] = songid
-        event_json = json.dumps(message, indent=4, separators=(',', ': '))
-        producer.send_messages(kafka_topic, event_json)
-        return render_template('listen.html', event_json=event_json)
-    return render_template('listen.html')
+    message = {}
+    message['event'] = event
+    message['songid'] = songid
+    event_json = json.dumps(message, indent=4, separators=(',', ': '))
+    producer.send_messages(kafka_topic, event_json)
             </code></pre>
-            <pre><code data-trim>
-{"timestamp": "Sun Mar 16 17:17:12 2014", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "login"}
-{"timestamp": "Sun Mar 16 17:18:17 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "play"}
-{"timestamp": "Sun Mar 16 17:25:25 2014", "songid": "a3ae420832855455e771ece6c3ca2cf6", "uid": "d1999ac2-21a6-4308-b899-419439eedbbc", "ip4": "46.13.224.152", "event": "tdn"}
+        </section>
+
+        <section id="data-json" data-background="img/insight_data_pipeline.png">
+            <pre><code data-trim width="100%">
+{
+    "event": "play",
+    "timestamp": "Sun Mar 16 17:18:17 2014",
+    "songid": "TREAYDQ128F147CC6C",
+    "uid": "d1999ac2-21a6-4308-b899-419439eedbbc",
+    "ip4": "46.13.224.152"
+}
+{
+    "event": "thumbs-dn",
+    "timestamp": "Sun Mar 16 17:25:25 2014",
+    "songid": "TREAYDQ128F147CC6C",
+    "uid": "d1999ac2-21a6-4308-b899-419439eedbbc",
+    "ip4": "46.13.224.152"
+}
             </code></pre>
         </section>
 
         <section id="data-collect" data-background="img/insight_data_pipeline.png">
-            <h2>Data/Code: Collect Message</h2>
             <pre><code data-trim>
-def new_event(u):
-    next_event = 'login'
-    ip4 = fake.ipv4()
-
-    for j in range(num_events_per_user):
-        if j == num_events_per_user - 1:
-            if d['event'] == 'exit':
-                continue
-            else:
-                next_event = 'exit'
-        d = {}
-        d['uid'] = str(uid)
-        d['ip4'] = ip4
-        d['event'] = next_event
-        if d['event'] == 'login':
-            login_date = random_date(begindate, lastdate)
-            new_time = login_date
-            d['timestamp'] = datetime.strftime(new_time, '%c')
-            last_time = new_time
-            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-            next_event = random.choice(choice_list)
-        elif d['event'] == 'search':
-            phrase = ' '.join(fake.words())
-            d['query'] = phrase
-            #d['query'] = fake.words().join()
-            choice_list = ['play'] * 70 + ['exit'] * 5 + ['search'] * 25
-            new_time = last_time + timedelta(seconds=random_wait())
-            d['timestamp'] = datetime.strftime(new_time, '%c')
-            last_time = new_time
-            next_event = random.choice(choice_list)
-        elif d['event'] == 'play':
-            sid = fake.md5()
-            d['songid'] = sid
-            new_time = last_time + timedelta(seconds=random_wait())
-            d['timestamp'] = datetime.strftime(new_time, '%c')
-            last_time = new_time
-            choice_list = ['tup'] * 30 + ['tdn'] * 30 + ['exit'] * 5 + ['pause'] * 5 + ['skip'] * 5 + ['play'] * 25
-            next_event = random.choice(choice_list)
-        elif d['event'] == 'exit':
-            new_time = last_time + timedelta(seconds=random_wait())
-            d['timestamp'] = datetime.strftime(new_time, '%c')
-            last_time = new_time
-            next_event = 'login'
-            ip4 = fake.ipv4()
-        else:
-            d['songid'] = sid
-            d['event'] = next_event
-            new_time = last_time + timedelta(seconds=random_wait())
-            d['timestamp'] = datetime.strftime(new_time, '%c')
-            last_time = new_time
-            choice_list = ['search'] * 28 + ['play'] * 68 + ['exit'] * 4
-            next_event = random.choice(choice_list)
-
-        json.dumps(d)
-        with open('user_events_init_pretty.json', 'a') as prettyfile:
-            res = json.dumps(d, sort_keys=True, indent=4, separators=(',', ': '))
-            prettyfile.write(res)
-            #json.dump(d, prettyfile
-        with open('user_events_init.json', 'a') as outfile:
-            json.dump(d, outfile)
+####### ROW_KEY                    SONG_ID           DATE      PL  UP  DN  SK 
+TREAYDQ128F147CC6C_20140510     TREAYDQ128F147CC6C 20140510    76  55  4   3
+TREAYDQ128F147CC6C_20140511     TREAYDQ128F147CC6C 20140511    78  33  41  3
+TREAYDQ128F147CC6C_20140512     TREAYDQ128F147CC6C 20140512    90  29  48  5
+TREAYDQ128F147CC6C_20140513     TREAYDQ128F147CC6C 20140513    111 67  2   15
+TREAYDQ128F147CC6C_20140514     TREAYDQ128F147CC6C 20140514    66  45  15  3
             </code></pre>
         </section>
 
-        <section id="data-hivemr" data-background="img/insight_data_pipeline.png">
-            <h2>Data/Code: Pig MapReduce</h2>
-            <pre><code data-trim>
-base = load 'msd/static-all/songs_20cols' using PigStorage('\t') as (
-    track_id:chararray,artist_familiarity:chararray,artist_hotttnesss:chararray,
-    artist_id:chararray,artist_latitude:chararray,artist_location:chararray,artist_longitude:chararray,
-    artist_name:chararray,artist_terms:chararray,
-    artist_terms_freq:chararray,artist_terms_weight:chararray,danceability:chararray,
-    duration:chararray,energy:chararray,release:chararray,similar_artists:chararray,
-    song_hotttnesss:chararray,title:chararray,track_7digitalid:chararray,year:chararray);
-
-base1 = foreach base generate CONCAT(CONCAT(title,'::'),track_id) as comp_key,
-    track_id,artist_familiarity,artist_hotttnesss
-    ,artist_id,artist_latitude,artist_location,artist_longitude,
-    artist_name,artist_terms,
-    artist_terms_freq,artist_terms_weight
-    ,danceability,duration
-    ,energy
-    ,release
-    ,similar_artists,song_hotttnesss
-    ,title,track_7digitalid,year;
-
-store base1 into 'msd/static-all/songsearch' using PigStorage('\t');
-            </code></pre>
+        <section id="data-pipeline" data-background="img/insight_data_pipeline.png">
         </section>
 
         <section id="about-me">
@@ -278,10 +177,23 @@ store base1 into 'msd/static-all/songsearch' using PigStorage('\t');
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-				// parallaxBackgroundSize: '2100px 900px',
+                // parallaxBackgroundSize: '2100px 900px',
 
-				// Optional libraries used to extend on reveal.js
-				dependencies: [
+                // The "normal" size of the presentation, aspect ratio will be preserved
+                // when the presentation is scaled to fit different resolutions. Can be
+                // specified using percentage units.
+                width: 1200, //960,
+                height: 700,
+
+                // Factor of the display size that should remain empty around the content
+                margin: 0.1,
+
+                // Bounds for smallest/largest possible scale to apply to content
+                minScale: 0.2,
+                maxScale: 1.0,
+
+        // Optional libraries used to extend on reveal.js
+            dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
