@@ -3,6 +3,8 @@ import happybase
 import json
 import subprocess
 import os
+import datetime
+from time import gmtime, strftime
 from kafka import KafkaClient, SimpleProducer
 
 kafka = KafkaClient('cluster.davidbianco.net:8092')
@@ -59,10 +61,11 @@ def non_listen(userid=False, event=False):
 @app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
-    if request.method == 'POST':
+    #if request.method == 'POST':
         message = {}
         #message['userid'] = 'fdj8a97sf'
-        message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
+        #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
+        message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         #message['songid'] = 'TRO786TE769'
         message['ip4'] = '23.123.3.24'
         message['event'] = event
