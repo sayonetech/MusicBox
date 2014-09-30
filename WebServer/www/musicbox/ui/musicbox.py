@@ -62,34 +62,34 @@ def non_listen(userid=False, event=False):
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
     #if request.method == 'POST':
-        message = {}
-        #message['userid'] = 'fdj8a97sf'
-        #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
-        message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-        #message['songid'] = 'TRO786TE769'
-        message['ip4'] = '23.123.3.24'
+    message = {}
+    #message['userid'] = 'fdj8a97sf'
+    #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
+    message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    #message['songid'] = 'TRO786TE769'
+    message['ip4'] = '23.123.3.24'
+    message['event'] = event
+    message['songid'] = songid
+    #event_json = ''
+    event_json = json.dumps(message, indent=4, separators=(',', ': '))
+    producer.send_messages(kafka_topic, event_json)
+    if event == 'tup':
         message['event'] = event
-        message['songid'] = songid
-        #event_json = ''
-        event_json = json.dumps(message, indent=4, separators=(',', ': '))
-        producer.send_messages(kafka_topic, event_json)
-        if event == 'tup':
-            message['event'] = event
-            event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        elif event == 'tdn':
-            message['event'] = event
-            event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        elif event == 'skip':
-            message['event'] = event
-            event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        elif event == 'pause':
-            message['event'] = event
-            event_json = json.dumps(d, indent=4, separators=(',', ': '))
-        elif event == 'play':
-            message['event'] = event
-            pass
-        return render_template('listen.html', event_json=event_json)
-    return render_template('listen.html')
+        event_json = json.dumps(d, indent=4, separators=(',', ': '))
+    elif event == 'tdn':
+        message['event'] = event
+        event_json = json.dumps(d, indent=4, separators=(',', ': '))
+    elif event == 'skip':
+        message['event'] = event
+        event_json = json.dumps(d, indent=4, separators=(',', ': '))
+    elif event == 'pause':
+        message['event'] = event
+        event_json = json.dumps(d, indent=4, separators=(',', ': '))
+    elif event == 'play':
+        message['event'] = event
+        pass
+    return render_template('listen.html', event_json=event_json)
+    #return render_template('listen.html')
 
 
 @app.route("/")
