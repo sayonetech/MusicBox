@@ -59,7 +59,7 @@
                     <em>Timeframes:</em> Total, Yesterday, This Week, Last Week, 
                     This Month, Last Month, Last 12 Months, This Year
                     </p>
-                    <p><a href="http://insight.davidbianco.net:8008/" target="_blank">Reports Demo</a></p>
+                    <!-- <p><a href="http://insight.davidbianco.net:8008/" target="_blank">Reports Demo</a></p> -->
 				</section>
 
         <section id="demo" data-background="img/demo.jpg">
@@ -68,16 +68,24 @@
         <section id="data">
             <h2>Data</h2>
             <ul>
-                <li>Million Song Dataset</li>
-                <li>Existing Users<small>*</small></li>
-                <li>Archive Event Log<small>*</small></li>
-                <li>Event Stream<small>*</small>: login, search, play, thumbs up/dn, skip</li>
+                <li><strong>Million Song Dataset</strong></li>
+                <ul style="list-style-type:none"><li>1000000 rows, 280 GB, 20 attributes</li></ul>
+                <li><strong>Existing Users</strong><small>*</small></li>
+                <ul style="list-style-type:none"><li>10000 rows, {id,gender,zipcode,name,email}</li></ul>
+                <li><strong>Archive Event Log</strong><small>*</small></li>
+                <ul style="list-style-type:none"><li>85000 rows, 2-year event history for top 100 songs/artists</li></ul>
+                <li><strong>Event Stream</strong><small>*</small>: login, search, play, thumbs up/dn, skip</li>
+                <ul style="list-style-type:none"><li>scalable between num of users and num events per user</li></ul>
             </ul>
             <br/> <br/><medium><em><small>*</small>simulated</em></medium><br/> <br/> 
+            <p>Medium volume, High velocity, Low variety</p>
+            <!--
             <p style="text-align: left;"> Volume:&nbsp;&nbsp;&nbsp; ~400 GB </p>
             <p style="text-align: left;"> Velocity:&nbsp;&nbsp;&nbsp; Scale test: 1-1000 events/min </p>
             <p style="text-align: left;"> Variety:&nbsp; Potential to include external API (Songkick, 7digital) </p>
+            -->
         </section>
+
 
         <section id="data-pipeline" data-background="img/insight_data_pipeline.png">
         </section>
@@ -132,6 +140,26 @@ TREAYDQ128F147CC6C_20140514     TREAYDQ128F147CC6C 20140514    66  45  15  3
         </section>
 
         <section id="data-pipeline" data-background="img/insight_data_pipeline.png">
+        </section>
+
+        <section id="future">
+            <h2>Future</h2>
+            <ul>
+                <li>Optimizations</li>
+                <ul>
+                    <li>Clean, capitalized search-specific field</li>
+                </ul>
+                <li>Pipeline</li>
+                <ul>
+                    <li>Increase scale (number of users and events) until system breaks</li>
+                    <li>Find and remove bottlenecks</li>
+                </ul>
+                <li>Interface</li>
+                <ul>
+                    <li>Incorporate Songkick API to list nearby concert dates</li>
+                    <li>Incorporate 7digital API to stream 30-second sample clips</li>
+                </ul>
+            </ul>
         </section>
 
         <section id="about-me">
