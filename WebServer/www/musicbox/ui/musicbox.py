@@ -56,6 +56,16 @@ def non_listen(userid=False, event=False):
     elif event == 'exit':
         pass
 
+@app.route("/event", methods=['POST'])
+def event():
+    response = {"status": "OK"}
+    userid = request.form['userid']
+    event = request.form['event']
+    songid = request.form['songid']
+    print userid, event, songid
+    return jsonify(response)
+
+
 @app.route("/listen", methods=['GET', 'POST'])
 @app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
 @app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
@@ -88,7 +98,11 @@ def listen(userid=False, event=False, songid=False):
     elif event == 'play':
         message['event'] = event
         pass
-    return render_template('listen.html', event_json=event_json)
+    data = {}
+    data['userid'] = 'Me'
+    data['songid'] = 'TRFDK834879DFDS3F'
+    #return render_template('listen.html', event_json=event_json)
+    return render_template('listen.html', data=data)
     #return render_template('listen.html')
 
 

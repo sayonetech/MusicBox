@@ -64,6 +64,10 @@
 <script type="text/javascript">
     $("#thumbs-up").click( function(e) {
             alert("THUMBS UP!");
+            $.ajax({
+                url: "/listen/event"
+                type: "POST"
+                data: {"user": "{{ user }}", "event": "tup", "songid": "{{ songid }}"}
             });
 </script>
 
