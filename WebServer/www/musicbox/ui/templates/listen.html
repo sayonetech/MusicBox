@@ -60,12 +60,13 @@
 </section>
 
 <script type="text/javascript">
-    $("#thumbs-up").click( function(e) {
+    jQuery("#thumbs-up").click( function(e) {
             alert("THUMBS UP!");
-            $.ajax({
+            jQuery.ajax({
                 url: "/event",
                 type: "POST",
                 data: {"user": "{{ user }}", "event": "tup", "songid": "{{ songid }}"}
+                });
             });
 </script>
 
