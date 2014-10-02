@@ -10,7 +10,7 @@
 <div class="span6 offset2">
 
 <div id="search">
-    <form action="{[ url_for('search') ]}" method="POST">
+    <form action="{{ url_for('search') }}" method="POST">
         <select name="query_type">
             <option value="song">Song</option>
             <option value="artist">Artist</option>
@@ -18,7 +18,7 @@
             <option value="genre">Genre</option>
         </select>
         <input type="text" width="40" name="query_string" />
-        <button type="submit" name="submit" value="Search" />
+        <input class="btn" type="submit" name="submit" value="Search" />
     </form>
 </div>
 
