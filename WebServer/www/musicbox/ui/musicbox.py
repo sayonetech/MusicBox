@@ -45,6 +45,10 @@ app.debug = True
 
 connection = happybase.Connection('cluster.davidbianco.net')
 
+@app.route("/audio")
+def audio():
+    return render_template('audio.html')
+
 @app.route("/report")
 def report():
     return render_template('report.html')
@@ -58,12 +62,13 @@ def non_listen(userid=False, event=False):
 
 @app.route("/listen/event", methods=['POST'])
 def event():
-    response = {"status": "OK"}
+    response = {}
+    response['message'] = "OK"
     userid = request.form['userid']
     event = request.form['event']
     songid = request.form['songid']
     print userid, event, songid
-    return jsonify(response)
+    return jsonify(**response)
 
 
 @app.route("/listen", methods=['GET', 'POST'])
