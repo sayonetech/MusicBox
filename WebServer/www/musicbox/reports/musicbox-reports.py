@@ -63,41 +63,45 @@ def generate_playlist(track_id):
     return render_template('playlist.html', html=html)
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
     # artist image http://api.7digital.com/1.2/artist/details?artistId=1&imageSize=200&oauth_consumer_key=7d5kwsncn39p
     # song preview http://previews.7digital.com/clip/4308713?oauth_consumer_key=7d5kwsncn39p&country=US
-    pass
 
-@app.route('/search/<q_type>/<q_string>')
-def search_song(q_type=False, q_string=False):
-    song_table = connection.table('song_search')
-    artist_table = connection.table('artist_search')
+@app.route('/search', methods=['GET', 'POST'])
+#@app.route('/search/<q_type>/<q_string>')
+#def search_song(q_type=False, q_string=False):
+def search():
     datas = {}
-    if q_type == 'song':
-        song = q_string + '::'
-        rows = song_table.scan(row_prefix=song)
-        print rows
-        if not rows:
-            datas['error'] = "Song not found"
-            datas['query'] = song
+
+    if method == 'POST':
+        song_table = connection.table('song_search')
+        artist_table = connection.table('artist_search')
+        if q_type == 'song':
+            song = q_string + '::'
+            rows = song_table.scan(row_prefix=song)
+            print rows
+            if not rows:
+                datas['error'] = "Song not found"
+                datas['query'] = song
+            else:
+                for key, data in rows:
+                    datas = data
+        elif q_type == 'artist':
+            artist = q_string + '::'
+            rows = artist_table.scan(row_prefix=artist)
+            print rows
+            if not rows:
+                datas['error'] = "Arist not found"
+                datas['query'] = q_string
+            else:
+                for key, data in rows:
+                    datas = data
         else:
-            for key, data in rows:
-                datas = data
-    elif q_type == 'artist':
-        artist = q_string + '::'
-        rows = artist_table.scan(row_prefix=artist)
-        print rows
-        if not rows:
-            datas['error'] = "Arist not found"
-            datas['query'] = q_string
-        else:
-            for key, data in rows:
-                datas = data
-    else:
-        datas['error'] = "Invalid search request"
+            datas['error'] = "Invalid search request"
 
     return jsonify(**datas)
+
+
+
 
 @app.route('/api/v1/info/song/<event>/<time>')
 def get_song_info(event=False, time=False):
