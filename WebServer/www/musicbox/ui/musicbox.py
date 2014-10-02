@@ -56,7 +56,7 @@ def non_listen(userid=False, event=False):
     elif event == 'exit':
         pass
 
-@app.route("/event", methods=['POST'])
+@app.route("/listen/event", methods=['POST'])
 def event():
     response = {"status": "OK"}
     userid = request.form['userid']
