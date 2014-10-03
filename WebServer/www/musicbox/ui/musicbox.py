@@ -7,7 +7,11 @@ import datetime
 from time import gmtime, strftime
 from kafka import KafkaClient, SimpleProducer
 
-kafka = KafkaClient('cluster.davidbianco.net:8092')
+try:
+    kafka = KafkaClient('cluster.davidbianco.net:8092')
+except:
+    pass
+
 producer = SimpleProducer(kafka)
 kafka_topic = "event_log"
 
@@ -60,21 +64,21 @@ def non_listen(userid=False, event=False):
     elif event == 'exit':
         pass
 
-@app.route("/event/", methods=['POST'])
+@app.route("/event", methods=['POST'])
 def event():
     #import pdb;pdb.set_trace()
-    response = {}
-    response['message'] = "OK"
+    resp = {}
+    resp['message'] = "OK"
     userid = request.form['user']
     event = request.form['event']
     songid = request.form['songid']
     print userid, event, songid
-    return jsonify(response)
+    return jsonify(resp)
 
 
 @app.route("/listen", methods=['GET', 'POST'])
-@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
-@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
+#@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
+#@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
     #if request.method == 'POST':
@@ -104,11 +108,12 @@ def listen(userid=False, event=False, songid=False):
     elif event == 'play':
         message['event'] = event
         pass
-    data = {}
-    data['userid'] = 'Me'
-    data['songid'] = 'TRFDK834879DFDS3F'
+    current = {}
+    event = {}
+    event['user'] = 'Me'
+    event['songid'] = 'TRFDK834879DFDS3F'
     #return render_template('listen.html', event_json=event_json)
-    return render_template('listen.html', data=data)
+    return render_template('listen.html', event=event, current=current)
     #return render_template('listen.html')
 
 

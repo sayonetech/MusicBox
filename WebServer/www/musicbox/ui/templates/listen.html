@@ -23,30 +23,39 @@
 </div>
 
 <div id="now-playing">
-    <p>Now Playing: A Song   by   A Band  </p>
-    <p>Their Album (2011) </p>
+    <p>Now Playing: {{ current['song'] }}   by   {{ current['band'] }}  </p>
+    <p>{{ current['album'] }} ({{ current['year'] }}) </p>
 </div>
 
 <br /> <br /> <br /> <br /> <br />
+<div id="audio">
+<audio controls>
+    <source src="song.mp3" type="audio/mpeg">
+Your browser does not support the HTML5 audio element.
+</audio>
+</div>
+<div id="song-img">
+    <img src="{{ current['image'] }}" alt="Band Image">
+</div>
+<!--
 <form action="/listen/pause" method="post">
     <input type="submit" name="submit" value="Pause"/>
 </form>
+-->
 
 <div id="thumbs-up-div">
     <button id="thumbs-up">Thumbs UP!</button>
 </div>
 
-<br />
-<form action="/listen/tdn" method="post">
-    <input type="submit" name="submit" value="Not so much"/>
-</form>
-<br />
-<br />
-<form action="/listen/skip" method="post">
-    <input type="submit" name="submit" value="Skip"/>
-</form>
+<div id="thumbs-dn-div">
+    <button id="thumbs-dn">Thumbs Down</button>
+</div>
 
-<br /> <br /> <br /> <br /> <br />
+<div id="skip-div">
+    <button id="skip">Skip</button>
+</div>
+
+<br/>
 <div id="playlist">
     <p>Playlist</p>
     <div class="flash"><pre>{{ event_json }}</pre></div><br/>
@@ -65,7 +74,7 @@
             jQuery.ajax({
                 url: "/event",
                 type: "POST",
-                data: {"user": "{{ user }}", "event": "tup", "songid": "{{ songid }}"}
+                data: {"user": "{{ event['user'] }}", "event": "tup", "songid": "{{ event['songid'] }}"}
                 });
             });
 </script>
