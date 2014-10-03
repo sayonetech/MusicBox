@@ -76,6 +76,7 @@ def event():
     return jsonify(resp)
 
 
+@app.route("/")
 @app.route("/listen", methods=['GET', 'POST'])
 #@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
 #@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
@@ -117,7 +118,6 @@ def listen(userid=False, event=False, songid=False):
     #return render_template('listen.html')
 
 
-@app.route("/")
 @app.route("/search", methods=['GET', 'POST'])
 @app.route("/search/<q>", methods=['GET', 'POST'])
 def search(q=False):

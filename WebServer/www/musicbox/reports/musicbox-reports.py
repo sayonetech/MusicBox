@@ -14,7 +14,7 @@ app.debug = True
 if True:
     import logging
 
-    file_handler = logging.FileHandler('/var/log/flask/musicbox-reports/weberror.log')
+    file_handler = logging.FileHandler('./weberror.log')
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
 
@@ -60,7 +60,7 @@ def generate_playlist(track_id):
 
     html += "\n</table>\n"
 
-    return render_template('playlist.html', html=html)
+    return render_template('playlist.html', html=html, data=data)
 
 
     # artist image http://api.7digital.com/1.2/artist/details?artistId=1&imageSize=200&oauth_consumer_key=7d5kwsncn39p
@@ -122,7 +122,28 @@ def get_user_info_counts(active_top=False, time=False):
 
 @app.route('/')
 def index():
-    return render_template('reports.html')
+    data = {}
+    data['plays'] = []
+    data['skip'] = []
+    data['tup'] = []
+    data['tdn'] = []
+    table = connection.table('event_log_artists')
+
+    #id = request.form.id
+    #begin_date = request.form.begin_date
+    #end_date = request.form.end_date
+    #begin_range = id + '_' + begin_date
+    #end_range = id + '_' + end_date
+    begin_range = ' AR52EZT1187B9900BF_20130601'
+    end_range = ' AR52EZT1187B9900BF_20131130'
+
+    for rowkey, rowdata in table.scan(row_start=begin_range, row_stop=end_range):
+        data['plays'].append(rowdata['info:plays'])
+        data['skip'].append(rowdata['info:skip'])
+        data['tup'].append(rowdata['info:tup'])
+        data['tdn'].append(rowdata['info:tdn'])
+
+    return render_template('reports.html', data=data)
 
 @app.route('/api/v1/doc')
 def doc():
