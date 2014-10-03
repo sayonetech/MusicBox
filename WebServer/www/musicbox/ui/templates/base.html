@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 
 <html>
-{% set active_page = active_page -%}
-<head>
-<meta charset="utf-8">
-<title>{{ active_page }} </title>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js" ></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        {% set active_page = active_page -%}
+        <title>{{ active_page }}</title>
 
-<body class="home">
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    </head>
+
+    <body class="home">
 
 <!-- .................................... $content .................................... -->
 {% block content %}
 {% endblock %}
 
-</body></html>
+    </body>
+</html>
