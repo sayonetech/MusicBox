@@ -135,13 +135,13 @@ def index():
     #begin_range = id + '_' + begin_date
     #end_range = id + '_' + end_date
     begin_range = ' AR52EZT1187B9900BF_20130601'
-    end_range = ' AR52EZT1187B9900BF_20131130'
+    end_range = ' AR52EZT1187B9900BF_20130613'
 
     for rowkey, rowdata in table.scan(row_start=begin_range, row_stop=end_range):
-        data['plays'].append(rowdata['info:plays'])
+        data['plays'].append(rowdata['info:play_count'])
         data['skip'].append(rowdata['info:skip'])
-        data['tup'].append(rowdata['info:tup'])
-        data['tdn'].append(rowdata['info:tdn'])
+        data['tup'].append(rowdata['info:tup_count'])
+        data['tdn'].append(rowdata['info:tdn_count'])
 
     return render_template('reports.html', data=data)
 
