@@ -60,15 +60,16 @@ def non_listen(userid=False, event=False):
     elif event == 'exit':
         pass
 
-@app.route("/listen/event", methods=['POST'])
+@app.route("/event/", methods=['POST'])
 def event():
+    #import pdb;pdb.set_trace()
     response = {}
     response['message'] = "OK"
-    userid = request.form['userid']
+    userid = request.form['user']
     event = request.form['event']
     songid = request.form['songid']
     print userid, event, songid
-    return jsonify(**response)
+    return jsonify(response)
 
 
 @app.route("/listen", methods=['GET', 'POST'])
