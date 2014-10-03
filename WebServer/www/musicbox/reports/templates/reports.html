@@ -25,6 +25,12 @@
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
 </div>
+<!--
+<div id="query-selection">
+    <em>{{ data['search_type'] }}:&nbsp;</em>
+    {{ data['search_result'] }}
+</div>
+-->
 
 <br/> <br/> <br/> <br/>
 
@@ -42,7 +48,7 @@ $(function () {
             x: -20 //center
         },
         subtitle: {
-            text: '',
+            text: '{{ data['search_type'] }}: {{ data['search_result'] }}',
             x: -20
         },
         xAxis: {
@@ -56,6 +62,7 @@ $(function () {
             title: {
                 text: 'Count'
             },
+            floor: 0,
             plotLines: [{
                 value: 0,
                 width: 1,

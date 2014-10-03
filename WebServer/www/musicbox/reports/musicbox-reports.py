@@ -128,15 +128,17 @@ def index():
     data['tup'] = []
     data['tdn'] = []
     table = connection.table('event_log_artists')
+    data['search_type'] = 'Artist'
+    data['search_result'] = 'Alicia Keys'
 
     #id = request.form.id
     #begin_date = request.form.begin_date
     #end_date = request.form.end_date
     #begin_range = id + '_' + begin_date
     #end_range = id + '_' + end_date
-    begin_range = ' AR52EZT1187B9900BF_20130601'
+    begin_range = ' AR52EZT1187B9900BF_20130101'
     #end_range = ' AR52EZT1187B9900BF_20130613'
-    end_range = ' AR52EZT1187B9900BF_20130913'
+    end_range = ' AR52EZT1187B9900BF_20131230'
 
     for rowkey, rowdata in table.scan(row_start=begin_range, row_stop=end_range):
         data['plays'].append(int(rowdata['info:play_count']))
