@@ -14,14 +14,91 @@
 
 <br/> <br/> <br/> <br/>
 <div id="search-form"> 
-    <form action="{{ url_for('search') }}" method="POST" role="form" class="form-inline">
+    <!-- <form action="{{ url_for('search') }}" method="POST" role="form" class="form-inline"> -->
+    <form action="/" method="POST" role="form" class="form-inline">
         <select name="query_type" class="form-control">
             <option value="artist">Artist</option>
             <option value="song">Song</option>
             <option disabled="disabled" value="album">Album</option>
             <option disabled="disabled" value="genre">Genre</option>
         </select>
-        <input type="text" size="40" name="query_string" class="form-control" />
+        <!-- <input type="text" size="40" name="query_string" class="form-control" /> -->
+        <select name="query_string" class="form-control">
+            <option value="AR0IVTL1187B9AD520">Katy Perry</option>
+            <option value="AR1IJ1Z11C8A41500D">Flo Rida</option>
+            <option value="AR47GV91187B996D90">Keri Hilson / Kanye West / Ne-Yo</option>
+            <option value="AR4DW2Q1187FB44DB6">Billy Currington</option>
+            <option value="AR52EZT1187B9900BF">Alicia Keys</option>
+            <option value="AR5IG761187B9A1A4E">Into The Abyss</option>
+            <option value="AR633SY1187B9AC3B9">Weezer</option>
+            <option value="AR6OJYP1187B9AE997">Jimmy Eat World</option>
+            <option value="AR6PJ8R1187FB5AD70">Shakira vs Pacha All Stars</option>
+            <option value="AR6XZ861187FB4CECD">The Beatles</option>
+            <option value="AR73S4G1187B9A03C2">OneRepublic</option>
+            <option value="AR7J9AP1187FB5BD64">Adele</option>
+            <option value="AR7ZFLN1187FB4830A">Rascal Flatts</option>
+            <option value="AR91C8S1187B990901">Bruce Springsteen</option>
+            <option value="ARA1FK71187FB5AFAD">Wham!</option>
+            <option value="ARAWOLW1187FB3AB70">Ne-Yo</option>
+            <option value="ARBAW9R1187B98FB6B">Natasha Bedingfield</option>
+            <option value="ARBS1OC1187FB44CAF">B-Real</option>
+            <option value="ARCBD0U1187FB466EF">Nelly</option>
+            <option value="ARCGJ6U1187FB4D01F">Akon</option>
+            <option value="ARD46C811C8A414F3F">Kid Cudi / Ratatat</option>
+            <option value="ARDCFNZ1187FB3DDB0">Enrique Iglesias</option>
+            <option value="ARDYVEQ122BCFCC19E">Nicki Minaj / Sean Garrett</option>
+            <option value="AREBTNS1187FB3CE6D">Taio Cruz</option>
+            <option value="AREHKZU122E5C4FC81">Mike Posner</option>
+            <option value="ARF2EHS1187B994F4E">Kings Of Leon</option>
+            <option value="ARF5M7Q1187FB501E8">Maroon 5</option>
+            <option value="ARF8HTQ1187B9AE693">Daft Punk</option>
+            <option value="ARFJXKQ119B86694AF">Lady Antebellum</option>
+            <option value="ARFL99B1187B9A2A45">Sugarland</option>
+            <option value="ARGVJPK1187B9909EA">Josh Groban</option>
+            <option value="ARH6BN71187B990C51">Jason Aldean</option>
+            <option value="ARICCZI1187B9AEBB3">Train</option>
+            <option value="ARJ7KF01187B98D717">Coldplay</option>
+            <option value="ARJS9GN1187FB578C4">Deadmau5</option>
+            <option value="ARK9BHE1187FB3AC9D">Pitbull</option>
+            <option value="ARKQQZA12086C116FC">B.O.B.</option>
+            <option value="ARKR75V1187FB3D4D5">My Chemical Romance</option>
+            <option value="ARKSZW81187B9B695D">Mariah Carey</option>
+            <option value="ARKU3Z61187FB51DCA">Rihanna</option>
+            <option value="ARL60FF1187B9AE52D">Trey Songz</option>
+            <option value="ARLE2071187FB3A270">Carrie Underwood</option>
+            <option value="ARLGIX31187B9AE9A0">Jay-Z</option>
+            <option value="ARLMXEA1187B9A7D04">R. Kelly</option>
+            <option value="ARM7EDF1187B9B3FA1">Guns N' Roses</option>
+            <option value="ARML3X41187FB35F2E">Jason Mraz & Colbie Caillat</option>
+            <option value="ARN0GFV1187FB508CC">Wiz Khalifa</option>
+            <option value="ARN0YZ71187B9BA57B">Michael Bublé</option>
+            <option value="ARNCHOP121318C56B8">Florence & The Machine</option>
+            <option value="ARODZUF11F4C841E1F">Drake</option>
+            <option value="ARORMBJ1241B9CDB1A">Ke$ha</option>
+            <option value="ARPAAHK1187B9ABB00">Nickelback</option>
+            <option value="ARPDVPJ1187B9ADBE9">Chandra Simmons</option>
+            <option value="ARQUMH41187B9AF699">Linkin Park</option>
+            <option value="ARR3ONV1187B9A2F59">Muse</option>
+            <option value="ARR8A0N1187B9A255D">Cee-Lo</option>
+            <option value="ARRH63Y1187FB47783">Kanye West</option>
+            <option value="ARS54I31187FB46721">Taylor Swift</option>
+            <option value="ARS8GNX1187B9B5141">The Black Keys</option>
+            <option value="ART5MUE1187B98C961">Metallica</option>
+            <option value="ARTDQRC1187FB4EFD4">Black Eyed Peas</option>
+            <option value="ARTH9041187FB43E1F">Eminem</option>
+            <option value="ARUDYKB11F4C83C269">Lil Wayne / D. Smith</option>
+            <option value="ARUJ5A41187FB3F5F1">U2</option>
+            <option value="ARV3CRH1187B9A1B21">Green Day</option>
+            <option value="ARVG4OK1187B9B6BD3">The Killers</option>
+            <option value="ARW7K0P1187B9B5B47">Barenaked Ladies</option>
+            <option value="ARX6TAQ11C8A415850">Lady Gaga / Beyoncé</option>
+            <option value="ARXGKVD1187FB54D8F">Plain White T S</option>
+            <option value="ARXOTQH1187FB57084">Chris Brown</option>
+            <option value="ARXPPEY1187FB51DF4">Michael Jackson</option>
+            <option value="ARZ9S861187B9B5B0A">Kenny Chesney</option>
+            <option value="ARZENOX1187B98A645">John Mayer</option>
+            <option value="ARZRYXF1187FB555CC">P!nk</option>
+        </select>
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
 </div>

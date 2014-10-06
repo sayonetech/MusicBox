@@ -73,7 +73,7 @@ def generate_playlist(track_id):
 def search():
     datas = {}
 
-    if method == 'POST':
+    if request.method == 'POST':
         song_table = connection.table('song_search')
         artist_table = connection.table('artist_search')
         if q_type == 'song':
@@ -121,31 +121,37 @@ def get_user_info_demog(event=False, time=False):
 def get_user_info_counts(active_top=False, time=False):
     pass
 
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def index():
     data = {}
-    data['plays'] = []
-    data['skip'] = []
-    data['tup'] = []
-    data['tdn'] = []
-    table = connection.table('event_log_artists')
-    data['search_type'] = 'Artist'
-    data['search_result'] = 'Alicia Keys'
+    if request.method == 'POST':
+        artist_id = request.form['query_string']
+        data['plays'] = []
+        data['skip'] = []
+        data['tup'] = []
+        data['tdn'] = []
+        table = connection.table('event_log_artists')
+        data['search_type'] = 'Artist'
+        #data['search_result'] = 'Alicia Keys'
 
-    #id = request.form.id
-    #begin_date = request.form.begin_date
-    #end_date = request.form.end_date
-    #begin_range = id + '_' + begin_date
-    #end_range = id + '_' + end_date
-    begin_range = ' AR52EZT1187B9900BF_20130101'
-    #end_range = ' AR52EZT1187B9900BF_20130613'
-    end_range = ' AR52EZT1187B9900BF_20131230'
+        #id = request.form.id
+        #begin_date = request.form.begin_date
+        #end_date = request.form.end_date
+        #begin_range = id + '_' + begin_date
+        #end_range = id + '_' + end_date
+        #begin_range = ' AR52EZT1187B9900BF_20130101'
+        #end_range = ' AR52EZT1187B9900BF_20130613'
+        #end_range = ' AR52EZT1187B9900BF_20131230'
+        if artist_id != 'AR0IVTL1187B9AD520':
+            artist_id = ' ' + artist_id
+        begin_range = artist_id + '_20130101'
+        end_range = artist_id + '_20131231'
 
-    for rowkey, rowdata in table.scan(row_start=begin_range, row_stop=end_range):
-        data['plays'].append(int(rowdata['info:play_count']))
-        data['skip'].append(int(rowdata['info:skip']))
-        data['tup'].append(int(rowdata['info:tup_count']))
-        data['tdn'].append(int(rowdata['info:tdn_count']))
+        for rowkey, rowdata in table.scan(row_start=begin_range, row_stop=end_range):
+            data['plays'].append(int(rowdata['info:play_count']))
+            data['skip'].append(int(rowdata['info:skip']))
+            data['tup'].append(int(rowdata['info:tup_count']))
+            data['tdn'].append(int(rowdata['info:tdn_count']))
 
     return render_template('reports.html', data=data)
 
