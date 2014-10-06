@@ -48,5 +48,9 @@ Version 1.0 - Initial README
 ## In Action
 You can see the web app in action at ...  
 The report engine is here ...  
-And the slides can be found here ...  
+And the slides can be found [here](http://insight.davidbianco.net/slides) 
+
+## About Me
+http://davidbianco.net/about-me
+
 
