@@ -9,7 +9,7 @@ import happybase
 class User():
     active_listener_count = 0
 
-    def _init_(self):
+    def __init__(self):
         self.first_name = ''
         self.last_name = ''
         self.email = ''
@@ -17,6 +17,11 @@ class User():
         self.gender = ''
         self.zipcode = ''
 
+def settings():
+    default = {}
+    default['KAFKA_SERVER'] = 'cluster.davidbianco.net:8092'
+
+    return default
 
 def gen_event(event_json):
     #event_json: user_id, event_type, song_id, duration, ip, timestamp, text_message

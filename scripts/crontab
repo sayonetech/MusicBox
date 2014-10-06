@@ -1,0 +1,3 @@
+@hourly /usr/local/bin/musicbox_kafka_collector.py
+@daily /usr/local/bin/musicbox_aggregate_daily_log.sh
+
