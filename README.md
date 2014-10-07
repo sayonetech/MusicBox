@@ -54,8 +54,8 @@ Secondly, we have users who request metric data from MusicBox.  These might be m
 Version 1.0 - Initial README
 ## In Action
 You can see the web app in action at ...  
-The report engine is [here](http://insight.davidbianco.net:8090/)
-And the slides can be found [here](http://insight.davidbianco.net/slides) 
+The report engine is [here](http://insight.davidbianco.net:8090/)  
+And the slides can be found [here](http://insight.davidbianco.net/slides)   
 
 ## About Me
 http://davidbianco.net/about-me
