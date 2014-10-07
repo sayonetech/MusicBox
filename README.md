@@ -1,4 +1,4 @@
-# MusicBox
+# MusicBox - My project for Insight Data Engineering
 #### The challenge is to build a report engine at scale for hundreds of concurrent events (*play, skip, thumbs-up*), for a music recommendation engine.
 _Note: This project is very beta, and is being polished as we speak._
 
