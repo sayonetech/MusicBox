@@ -46,6 +46,7 @@ Secondly, we have users who request metric data from MusicBox.  These might be m
 * Improve 'engineered data' to show natural rise and decline of interest in song/artist
 * Implement funkload.py to stress test webapp against N users
 * Write doc for API
+* Explore better search implementation
 * Complete UI for demo purposes
 * Expand data input options (1-10 stars, text input, tags)
 * Expand data capabilities (maps, sentiment analysis, listener collaboration)
