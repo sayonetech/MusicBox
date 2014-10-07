@@ -49,6 +49,7 @@ Secondly, we have users who request metric data from MusicBox.  These might be m
 * Complete UI for demo purposes
 * Expand data input options (1-10 stars, text input, tags)
 * Expand data capabilities (maps, sentiment analysis, listener collaboration)
+
 ## Changelog
 Version 1.0 - Initial README
 ## In Action
