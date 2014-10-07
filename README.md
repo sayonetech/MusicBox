@@ -43,11 +43,16 @@ Secondly, we have users who request metric data from MusicBox.  These might be m
 
 ## Challenges
 ## TODO
+* Improve 'engineered data' to show natural rise and decline of interest in song/artist
+* Implement funkload.py to stress test webapp against N users
+* Write doc for API
+* Complete UI for demo purposes
+* Expand data capabilities (maps, sentiment analysis, listener collaboration)
 ## Changelog
 Version 1.0 - Initial README
 ## In Action
 You can see the web app in action at ...  
-The report engine is here ...  
+The report engine is [here](http://insight.davidbianco.net:8090/)
 And the slides can be found [here](http://insight.davidbianco.net/slides) 
 
 ## About Me

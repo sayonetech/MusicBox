@@ -1,0 +1,4 @@
+sudo apt-get install git
+wget cloudera-manager-installer.bin.gz
+wget kafka_2.10-0.8.1.1.tgz
+wget solr-4.7.2.tgz
