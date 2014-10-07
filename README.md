@@ -1,5 +1,5 @@
 # MusicBox - My project for Insight Data Engineering
-#### The challenge is to build a report engine at scale for hundreds of concurrent events (*play, skip, thumbs-up*), for a music recommendation engine.
+#### The challenge is to build a report engine at scale for hundreds of concurrent events (*play, skip, thumbs-up, thumbs-dn*), for a music recommendation engine.
 _Note: This project is very beta, and is being polished as we speak._
 
 ## Lots of moving parts
@@ -47,6 +47,7 @@ Secondly, we have users who request metric data from MusicBox.  These might be m
 * Implement funkload.py to stress test webapp against N users
 * Write doc for API
 * Complete UI for demo purposes
+* Expand data input options (1-10 stars, text input, tags)
 * Expand data capabilities (maps, sentiment analysis, listener collaboration)
 ## Changelog
 Version 1.0 - Initial README
