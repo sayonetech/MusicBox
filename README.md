@@ -10,7 +10,7 @@ In order to create a mock Music Listening app, several parts of the puzzle were 
 * Kafka receives these messages, and once an hour a collector script stores them in HDFS.  Currently, Kafka is a single server.
 * The Hadoop cluster contains one name node and three data nodes, all running on Ubuntu 12.10 64-bit.
 * A python collector script is run every hour to take messages from Kafka and store them in HDFS.  
-* Every night a Hive cron job aggregates the day's data and adds a row to the HBase event_log table.
+* Every night a pig cron job aggregates the day's data and adds a row to the HBase event_log table.
 * HBase is used as the NoSQL datastore and uses the same 4-node cluster as Hadoop
 * Lastly, a second webserver is implemented to separate listener activity from report data requests.
 
@@ -37,7 +37,7 @@ In addition to contacting Hbase, and for all other requests, an event message is
 {"timestamp": "Thu Dec 19 13:11:06 2013", "songid": "4ad8e5ac8c3ff7d706b3221d8692ceb2", "uid": "8c24dbaf-e50e-4b47-9fd6-da426752b6d4", "ip4": "248.132.126.127", "event": "tup"}
 {"timestamp": "Thu Dec 19 13:18:14 2013", "songid": "323eeeea1d41be8f6f12fe28b9037d6c", "uid": "8c24dbaf-e50e-4b47-9fd6-da426752b6d4", "ip4": "248.132.126.127", "event": "play"} 
 ```   
-At one-hour intervals, the messages from Kafka are loaded to Hadoop/HDFS.  At daily intervals, a Hive Map-Reduce program aggregrates that day's messages into a single day and adds them to the HBase:*event_log* table.
+At one-hour intervals, the messages from Kafka are loaded to Hadoop/HDFS.  At daily intervals, a Pig Map-Reduce program aggregrates that day's messages into a single day and adds them to the HBase:*event_log* table.
 
 Secondly, we have users who request metric data from MusicBox.  These might be music promoters and accountants wanting to know how often a particular band or song is listened to.  Or, they might be advertisers wanting more information about the listeners in general, for a specific zipcode, or for a particular genre of music.  This request is sent to a separate Report-Engine web server which visualizes the aggregated HBase:*event_log* dataset.
 
