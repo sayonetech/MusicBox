@@ -49,21 +49,6 @@ app.debug = True
 
 connection = happybase.Connection('cluster.davidbianco.net')
 
-@app.route("/audio")
-def audio():
-    return render_template('audio.html')
-
-@app.route("/report")
-def report():
-    return render_template('report.html')
-
-@app.route("/user/<userid>/<event>")
-def non_listen(userid=False, event=False):
-    if event == 'search':
-        pass
-    elif event == 'exit':
-        pass
-
 @app.route("/event", methods=['POST'])
 def event():
     #import pdb;pdb.set_trace()
@@ -118,12 +103,12 @@ def listen(userid=False, event=False, songid=False):
     #return render_template('listen.html')
 
 
-@app.route("/search", methods=['GET', 'POST'])
-@app.route("/search/<q>", methods=['GET', 'POST'])
-def search(q=False):
+@app.route("/search", methods=['POST'])
+def search():
     if request.method == 'POST':
-        return jsonify(test='test')
-    return render_template('search.html')
+        return musicbox.search(request.form['query_type'], request.form['query_string'])
+    else:
+        return "500 error"
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -161,11 +146,11 @@ def register():
 
     return render_template('register.html')
 
-@app.route("/view-events")
-def view_events():
-    logfile = "/var/log/events.log"
-    events = subprocess.Popen(['tail', '-80', logfile], stdout = subprocess.PIPE).communicate()[0]
-    return render_template('view-events.html', events=events)
+#@app.route("/admin/view-events")
+#def view_events():
+    #logfile = "/var/log/events.log"
+    #events = subprocess.Popen(['tail', '-80', logfile], stdout = subprocess.PIPE).communicate()[0]
+    #return render_template('view-events.html', events=events)
 
 
 if __name__ == "__main__":

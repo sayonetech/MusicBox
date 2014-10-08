@@ -68,16 +68,8 @@ Your browser does not support the HTML5 audio element.
 </div>
 </section>
 
-<script type="text/javascript">
-    jQuery("#thumbs-up").click( function(e) {
-            alert("THUMBS UP!");
-            jQuery.ajax({
-                url: "/event",
-                type: "POST",
-                data: {"user": "{{ event['user'] }}", "event": "tup", "songid": "{{ event['songid'] }}"}
-                });
-            });
-</script>
+<!-- ------------------javascript-------------------------- -->
+<script src="{{ url_for('static', filename='musicbox.js' }}"></script>
 
 {% endblock %}
 
