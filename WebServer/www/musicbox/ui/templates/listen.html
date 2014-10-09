@@ -2,24 +2,22 @@
 {% set active_page = "Listen" %}
 {% block content %}
 
-<section class="section-content" id="section-listen">
 <div class="container">
 <div class="row">
 <div class="span12">
 <div class="row">
 <div class="span6 offset2">
 
-<div id="search">
-    <form action="{{ url_for('search') }}" method="POST">
-        <select name="query_type">
-            <option value="song">Song</option>
-            <option value="artist">Artist</option>
-            <option value="album">Album</option>
-            <option value="genre">Genre</option>
-        </select>
-        <input type="text" size="40" name="query_string" />
-        <input class="btn" type="submit" name="submit" value="Search" />
-    </form>
+<section class="section-content" id="section-listen">
+<div id="search-div">
+    <select name="query_type">
+        <option value="song">Song</option>
+        <option value="artist">Artist</option>
+        <option value="album" disabled="disabled">Album</option>
+        <option value="genre" disabled="disabled">Genre</option>
+    </select>
+    <input type="text" size="40" name="query_string" />
+    <input id="search-btn" class="btn" type="submit" name="submit" value="Search" />
 </div>
 
 <div id="now-playing">
@@ -27,49 +25,38 @@
     <p>{{ current['album'] }} ({{ current['year'] }}) </p>
 </div>
 
-<br /> <br /> <br /> <br /> <br />
-<div id="audio">
-<audio controls>
-    <source src="song.mp3" type="audio/mpeg">
-Your browser does not support the HTML5 audio element.
-</audio>
-</div>
 <div id="song-img">
-    <img src="{{ current['image'] }}" alt="Band Image">
-</div>
-<!--
-<form action="/listen/pause" method="post">
-    <input type="submit" name="submit" value="Pause"/>
-</form>
--->
-
-<div id="thumbs-up-div">
-    <button id="thumbs-up">Thumbs UP!</button>
+    <img src="{{ current['image'] }}" alt="Band Image" width="300" height="250">
 </div>
 
-<div id="thumbs-dn-div">
-    <button id="thumbs-dn">Thumbs Down</button>
+<div id="audio-div">
+    <audio id="audio-id" controls>
+        <source id="audio-source" src="http://davidbianco.net/chaser/CHASER_permanentpast.mp3" type="audio/mpeg">
+        Your browser does not support the HTML5 audio element.
+    </audio>
+    <div id="audio-controls">
+        <button id="audio-playpause" style="display: inline">Play</button>
+        <button id="audio-thumbs-up" style="display: inline">Thumbs Up</button>
+        <button id="audio-thumbs-dn" style="display: inline">Thumbs Down</button>
+        <button id="audio-skip">Skip</button>
+    </div>
+    <div id="audio-volume"></div>
 </div>
 
-<div id="skip-div">
-    <button id="skip">Skip</button>
-</div>
-
-<br/>
 <div id="playlist">
     <p>Playlist</p>
     <div class="flash"><pre>{{ event_json }}</pre></div><br/>
 </div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
 </section>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
 
-<!-- ------------------javascript-------------------------- -->
-<script src="{{ url_for('static', filename='musicbox.js' }}"></script>
-
+{% block script %}
+<script src="{{ url_for('static', filename='musicbox.js') }}"></script>
 {% endblock %}
 

@@ -6,7 +6,10 @@
         {% set active_page = active_page -%}
         <title>{{ active_page }}</title>
 
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     </head>
 
     <body class="home">
@@ -15,5 +18,8 @@
 {% block content %}
 {% endblock %}
 
+<!-- .................................... $javascript .................................... -->
+{% block script %}
+{% endblock %}
     </body>
 </html>

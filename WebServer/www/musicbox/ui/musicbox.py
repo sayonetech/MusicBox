@@ -53,18 +53,20 @@ connection = happybase.Connection('cluster.davidbianco.net')
 def event():
     #import pdb;pdb.set_trace()
     resp = {}
-    resp['message'] = "OK"
-    userid = request.form['user']
-    event = request.form['event']
-    songid = request.form['songid']
-    print userid, event, songid
+    resp['status'] = "OK"
+    message = {}
+    message['userid'] = request.form['user']
+    message['event'] = request.form['event']
+    message['songid'] = request.form['songid']
+    message['ip4'] = request.remote_addr
+    message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    #print userid, event, songid
+    event_json = json.dumps(message)
+    producer.send_messages(kafka_topic, event_json)
     return jsonify(resp)
 
 
 @app.route("/")
-@app.route("/listen", methods=['GET', 'POST'])
-#@app.route("/listen/user/<userid>/<event>", methods=['GET', 'POST'])
-#@app.route("/listen/user/<userid>/<event>/song/<songid>", methods=['GET', 'POST'])
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
     #if request.method == 'POST':
@@ -73,12 +75,10 @@ def listen(userid=False, event=False, songid=False):
     #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
     message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
     #message['songid'] = 'TRO786TE769'
-    message['ip4'] = '23.123.3.24'
     message['event'] = event
     message['songid'] = songid
     #event_json = ''
     event_json = json.dumps(message, indent=4, separators=(',', ': '))
-    producer.send_messages(kafka_topic, event_json)
     if event == 'tup':
         message['event'] = event
         event_json = json.dumps(d, indent=4, separators=(',', ': '))
@@ -145,13 +145,6 @@ def register():
                 timestamp=timestamp, ip4=ip4, event=event)
 
     return render_template('register.html')
-
-#@app.route("/admin/view-events")
-#def view_events():
-    #logfile = "/var/log/events.log"
-    #events = subprocess.Popen(['tail', '-80', logfile], stdout = subprocess.PIPE).communicate()[0]
-    #return render_template('view-events.html', events=events)
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=DEBUG)
