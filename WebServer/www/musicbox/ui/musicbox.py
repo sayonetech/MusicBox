@@ -63,7 +63,8 @@ def event():
     #print userid, event, songid
     event_json = json.dumps(message)
     producer.send_messages(kafka_topic, event_json)
-    return jsonify(resp)
+    #return jsonify(resp)
+    return jsonify(event_json)
 
 
 @app.route("/")

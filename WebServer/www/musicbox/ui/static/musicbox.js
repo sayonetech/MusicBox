@@ -4,13 +4,15 @@
 
 var audioId = document.getElementById("audio-id"),
     audio_playpause = document.getElementById("audio-playpause");
+var startVol = 0.73;
+audioId.volume = startVol;
 
 function audioPlay(){
     //alert("I hit play!");
 
     // Update the Button
     var pause = audio_playpause.innerHTML === 'Pause';
-    audio_playpause.innerHTML = pause ? 'Play &nbsp;' : 'Pause';
+    audio_playpause.innerHTML = pause ? 'Play' : 'Pause';
   
     // Update the Audio
     var method = pause ? 'pause' : 'play';
@@ -30,7 +32,7 @@ function audioSkip(){}
 
 jQuery('#audio-volume').slider({
         orientation: "horizontal",
-        value: 0.73,
+        value: startVol,
         min: 0,
         max: 1,
         range: 'min',
