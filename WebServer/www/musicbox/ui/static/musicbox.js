@@ -2,12 +2,28 @@
 // David Bianco
 // Oct. 2014
 
-var audioId = document.getElementById("audio-id");
+var audioId = document.getElementById("audio-id"),
+    audio_playpause = document.getElementById("audio-playpause");
+
 function audioPlay(){
-    audioId.play();
+    //alert("I hit play!");
+
+    // Update the Button
+    var pause = audio_playpause.innerHTML === 'Pause';
+    audio_playpause.innerHTML = pause ? 'Play &nbsp;' : 'Pause';
+  
+    // Update the Audio
+    var method = pause ? 'pause' : 'play';
+    audioId[method]();
+    event_data["event"] = method;
+    postEvent;
+   
+    // Prevent Default Action
+    return false;
 }
+
 function audioPause(){
-    audioId.pause();
+    audioId["pause"]();
 }
 function audioVolume(){}
 function audioSkip(){}
@@ -19,7 +35,7 @@ jQuery('#audio-volume').slider({
         max: 1,
         range: 'min',
         animate: true,
-        step: .1,
+        step: .03,
         slide: function(e, ui) { audioId.volume = ui.value; }
 });
 
@@ -63,11 +79,12 @@ var postEvent = function postEvent(e) {
 };
 
 
-jQuery("#audio-thumbs-up").click(event_data["event"]="tup";postEvent);
-jQuery("#audio-thumbs-dn").click(event_data["event"]="tdn";postEvent);
-jQuery("#audio-play").click(event_data["event"]="play";postEvent;audioPlay);
-jQuery("#audio-skip").click(event_data["event"]="skip";postEvent;audioSkip);
-jQuery("#search").click(event_data["event"]="search";postEvent);
-jQuery("#audio-pause").click(event_data["event"]="pause";postEvent;audioPause);
-jQuery("#logoff").click(event_data["event"]="logoff";postEvent);
+//jQuery("#audio-thumbs-up").click(event_data["event"]="tup";postEvent);
+//jQuery("#audio-thumbs-dn").click(event_data["event"]="tdn";postEvent);
+//jQuery("#audio-play").click(event_data["event"]="play";postEvent;audioPlay);
+jQuery("#audio-playpause").click(audioPlay);
+//jQuery("#audio-skip").click(event_data["event"]="skip";postEvent;audioSkip);
+//jQuery("#search").click(event_data["event"]="search";postEvent);
+//jQuery("#audio-pause").click(event_data["event"]="pause";postEvent;audioPause);
+//jQuery("#logoff").click(event_data["event"]="logoff";postEvent);
 

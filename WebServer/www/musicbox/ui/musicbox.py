@@ -95,11 +95,17 @@ def listen(userid=False, event=False, songid=False):
         message['event'] = event
         pass
     current = {}
+    current['song'] = "Permanent Past"
+    current['artist'] = "Chaser"
+    current['year'] = "2001"
+    current['album'] = "S/T"
+
     event = {}
     event['user'] = 'Me'
     event['songid'] = 'TRFDK834879DFDS3F'
+    playlist = {}
     #return render_template('listen.html', event_json=event_json)
-    return render_template('listen.html', event=event, current=current)
+    return render_template('listen.html', event=event, current=current, event_json=event_json, playlist=playlist)
     #return render_template('listen.html')
 
 

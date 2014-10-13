@@ -21,7 +21,7 @@
 </div>
 
 <div id="now-playing">
-    <p>Now Playing: {{ current['song'] }}   by   {{ current['band'] }}  </p>
+    <p>Now Playing: {{ current['song'] }}   by   {{ current['artist'] }}  </p>
     <p>{{ current['album'] }} ({{ current['year'] }}) </p>
 </div>
 
@@ -30,7 +30,7 @@
 </div>
 
 <div id="audio-div">
-    <audio id="audio-id" controls>
+    <audio id="audio-id">
         <source id="audio-source" src="http://davidbianco.net/chaser/CHASER_permanentpast.mp3" type="audio/mpeg">
         Your browser does not support the HTML5 audio element.
     </audio>
@@ -45,7 +45,10 @@
 
 <div id="playlist">
     <p>Playlist</p>
-    <div class="flash"><pre>{{ event_json }}</pre></div><br/>
+    <div class="flash"><pre>{{ playlist }}</pre></div>
+</div>
+<div id="event-json">
+    <div class="flash"><pre>{{ event_json }}</pre></div>
 </div>
 
 </section>
