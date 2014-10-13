@@ -49,34 +49,40 @@ app.debug = True
 
 connection = happybase.Connection('cluster.davidbianco.net')
 
-@app.route("/event", methods=['POST'])
+@app.route("/event", methods=['POST','GET'])
 def event():
     #import pdb;pdb.set_trace()
     resp = {}
     resp['status'] = "OK"
-    message = {}
-    message['userid'] = session['userid']
-    #message['userid'] = request.form['user']
+    message = {'status': 'OK'}
+    if request.method == 'POST':
+        if 'userid' in session:
+            uid = session['userid']
+        else:
+            uid = "guest"
 
-    message['event'] = request.form['event']
-    message['songid'] = request.form['songid']
-    message['duration'] = request.form['clicktime'] or "02:42"
+        message['userid'] = uid #session['userid'] or "guest"
+        #message['userid'] = request.form['user']
 
-    message['ip4'] = request.remote_addr
-    message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        message['event'] = request.form['event']
+        message['songid'] = request.form['songid']
+        message['duration'] = request.form['clicktime'] or "02:42"
+
+        message['ip4'] = request.remote_addr
+        message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
     event_json = json.dumps(message)
     producer.send_messages(kafka_topic, event_json)
-    #return jsonify(resp)
-    return jsonify(event_json)
+
+    return jsonify(event_message=event_json)
 
 
 @app.route("/")
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
     #if request.method == 'POST':
-    if userid not in session:
-        session['userid'] = '8djeiTestjso89R2'
+    if 'userid' not in session:
+        session['userid'] = 'Guest_' + request.remote_addr
     message = {}
     #message['userid'] = 'fdj8a97sf'
     #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
@@ -86,21 +92,6 @@ def listen(userid=False, event=False, songid=False):
     message['songid'] = songid
     #event_json = ''
     event_json = json.dumps(message, indent=4, separators=(',', ': '))
-    if event == 'tup':
-        message['event'] = event
-        event_json = json.dumps(d, indent=4, separators=(',', ': '))
-    elif event == 'tdn':
-        message['event'] = event
-        event_json = json.dumps(d, indent=4, separators=(',', ': '))
-    elif event == 'skip':
-        message['event'] = event
-        event_json = json.dumps(d, indent=4, separators=(',', ': '))
-    elif event == 'pause':
-        message['event'] = event
-        event_json = json.dumps(d, indent=4, separators=(',', ': '))
-    elif event == 'play':
-        message['event'] = event
-        pass
     current = {}
     current['song'] = "Permanent Past"
     current['artist'] = "Chaser"

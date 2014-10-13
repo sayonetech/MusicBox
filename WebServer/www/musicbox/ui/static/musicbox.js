@@ -74,7 +74,8 @@ function success_function(data) {
 }
 
 function postEventSuccess(data) {
-    jQuery("#event-json").html(data.message);
+    eventJson.innerHTML = data.message;
+    //jQuery("#event-json").html(data.message);
 }
 
 var postEvent = function postEvent(eventData) {
@@ -85,10 +86,16 @@ var postEvent = function postEvent(eventData) {
         url: "/event",
         data: event_data,
         type: "POST",
-        success: function(data) { postEventSuccess(data); }
+        datatype: "json",
+        success: function(data) { 
+            var eventJsonStr = JSON.stringify(data, undefined, 2); // indentation level = 2
+            //eventJson.innerHTML = eventJsonStr;
+            jQuery("#event-json").html(eventJsonStr);
+            //jQuery("#event-json").html(data);
+        }
     });
-    var eventJsonStr = JSON.stringify(event_data, undefined, 2); // indentation level = 2
-    eventJson.innerHTML = eventJsonStr;
+    //var eventJsonStr = JSON.stringify(event_data, undefined, 2); // indentation level = 2
+    //eventJson.innerHTML = eventJsonStr;
     event_data["event"] = "";
 };
 
