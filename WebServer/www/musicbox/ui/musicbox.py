@@ -55,12 +55,16 @@ def event():
     resp = {}
     resp['status'] = "OK"
     message = {}
-    message['userid'] = request.form['user']
+    message['userid'] = session['userid']
+    #message['userid'] = request.form['user']
+
     message['event'] = request.form['event']
     message['songid'] = request.form['songid']
+    message['duration'] = request.form['clicktime'] or "02:42"
+
     message['ip4'] = request.remote_addr
     message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    #print userid, event, songid
+
     event_json = json.dumps(message)
     producer.send_messages(kafka_topic, event_json)
     #return jsonify(resp)
@@ -71,6 +75,8 @@ def event():
 def listen(userid=False, event=False, songid=False):
     ''' tup, tdn, skip, pause, play '''
     #if request.method == 'POST':
+    if userid not in session:
+        session['userid'] = '8djeiTestjso89R2'
     message = {}
     #message['userid'] = 'fdj8a97sf'
     #message['timestamp'] = 'Fri Sep 19 20:22:04 2014'
@@ -102,7 +108,7 @@ def listen(userid=False, event=False, songid=False):
     current['album'] = "S/T"
 
     event = {}
-    event['user'] = 'Me'
+    event['userid'] = session['userid']
     event['songid'] = 'TRFDK834879DFDS3F'
     playlist = {}
     #return render_template('listen.html', event_json=event_json)

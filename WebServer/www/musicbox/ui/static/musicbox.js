@@ -3,7 +3,9 @@
 // Oct. 2014
 
 var audioId = document.getElementById("audio-id"),
-    audio_playpause = document.getElementById("audio-playpause");
+    audio_playpause = document.getElementById("audio-playpause"),
+    eventJson = document.getElementById("event-json");
+
 var startVol = 0.73;
 audioId.volume = startVol;
 
@@ -17,18 +19,30 @@ function audioPlay(){
     // Update the Audio
     var method = pause ? 'pause' : 'play';
     audioId[method]();
-    event_data["event"] = method;
-    postEvent;
+    postEvent(method);
+
+    event_data["songid"] = "TR89384997KKJF8399KF"
    
     // Prevent Default Action
     return false;
 }
 
-function audioPause(){
-    audioId["pause"]();
+function audioSkip(){
+    postEvent("skip");
+    // choose next song, and play it
+    return false;
 }
-function audioVolume(){}
-function audioSkip(){}
+
+function rateSongUp(){
+    //alert("Inside rateSongUp");
+    postEvent("tup");
+    return false;
+}
+function rateSongDn(){
+    //alert("Inside rateSongDn");
+    postEvent("tdn");
+    return false;
+}
 
 jQuery('#audio-volume').slider({
         orientation: "horizontal",
@@ -41,10 +55,6 @@ jQuery('#audio-volume').slider({
         slide: function(e, ui) { audioId.volume = ui.value; }
 });
 
-var event_data = ({
-    "user": "guest"
-});
-event_data["timestamp"] = "now";
 
 var search = function search(e) {
     jQuery.ajax({
@@ -60,33 +70,33 @@ var search = function search(e) {
 };
 
 function success_function(data) {
-    jQuery('#display-search-results').html(data.message)
+    jQuery('#display-search-results').html(data.message);
 }
 
-var postEvent = function postEvent(e) {
+function postEventSuccess(data) {
+    jQuery("#event-json").html(data.message);
+}
+
+var postEvent = function postEvent(eventData) {
+    event_data["event"] = eventData;
+    event_data["clicktime"] = "01:33"
     //alert("THUMBS UP!");
     jQuery.ajax({
         url: "/event",
         data: event_data,
-        type: "POST"
-        //data: {
-            //"user": "{{ event['user'] }}", 
-            //"event": "tup", 
-            //"songid": "{{ event['songid'] }}",
-            //"timestamp": "now",
-            //"ipv4": "123.123.123.123"
-        //}
+        type: "POST",
+        success: function(data) { postEventSuccess(data); }
     });
+    var eventJsonStr = JSON.stringify(event_data, undefined, 2); // indentation level = 2
+    eventJson.innerHTML = eventJsonStr;
     event_data["event"] = "";
 };
 
 
-//jQuery("#audio-thumbs-up").click(event_data["event"]="tup";postEvent);
-//jQuery("#audio-thumbs-dn").click(event_data["event"]="tdn";postEvent);
-//jQuery("#audio-play").click(event_data["event"]="play";postEvent;audioPlay);
 jQuery("#audio-playpause").click(audioPlay);
-//jQuery("#audio-skip").click(event_data["event"]="skip";postEvent;audioSkip);
+jQuery("#audio-skip").click(audioSkip);
+jQuery("#audio-thumbs-up").click(rateSongUp);
+jQuery("#audio-thumbs-dn").click(rateSongDn);
 //jQuery("#search").click(event_data["event"]="search";postEvent);
-//jQuery("#audio-pause").click(event_data["event"]="pause";postEvent;audioPause);
 //jQuery("#logoff").click(event_data["event"]="logoff";postEvent);
 

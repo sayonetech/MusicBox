@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% set active_page = "Listen" %}
 {% block content %}
+<script type="text/javascript">
+var event_data = ({
+    "user": "{{ event['userid'] }}"
+});
+</script>
 
 <div class="container">
 <div class="row">
@@ -47,9 +52,10 @@
     <p>Playlist</p>
     <div class="flash"><pre>{{ playlist }}</pre></div>
 </div>
-<div id="event-json">
+<div id="event-json-div">
     <p>Last Event Message</p>
-    <div class="flash"><pre>{{ event_json }}</pre></div>
+    <!-- <div class="flash"><pre id="event-json">{{ event_json }}</pre></div> -->
+    <div class="flash"><pre id="event-json"></pre></div>
 </div>
 
 </section>
