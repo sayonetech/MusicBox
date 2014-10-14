@@ -51,9 +51,6 @@ connection = happybase.Connection('cluster.davidbianco.net')
 
 @app.route("/event", methods=['POST','GET'])
 def event():
-    #import pdb;pdb.set_trace()
-    resp = {}
-    resp['status'] = "OK"
     message = {'status': 'OK'}
     if request.method == 'POST':
         if 'userid' in session:
@@ -61,8 +58,7 @@ def event():
         else:
             uid = "guest"
 
-        message['userid'] = uid #session['userid'] or "guest"
-        #message['userid'] = request.form['user']
+        message['userid'] = uid
 
         message['event'] = request.form['event']
         message['songid'] = request.form['songid']
