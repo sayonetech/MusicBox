@@ -80,7 +80,7 @@ function postEventSuccess(data) {
 
 var postEvent = function postEvent(eventData) {
     event_data["event"] = eventData;
-    event_data["clicktime"] = "01:33"
+    event_data["clicktime"] = audioId.currentTime;
     //alert("THUMBS UP!");
     jQuery.ajax({
         url: "/event",
@@ -88,9 +88,9 @@ var postEvent = function postEvent(eventData) {
         type: "POST",
         datatype: "json",
         success: function(data) { 
-            var eventJsonStr = JSON.stringify(data, undefined, 2); // indentation level = 2
-            //eventJson.innerHTML = eventJsonStr;
-            jQuery("#event-json").html(eventJsonStr);
+            var eventJsonStr = JSON.stringify(data, null, 2).replace(/\\"/g, '&quot;'); // indentation level = 2
+            eventJson.innerHTML = eventJsonStr;
+            //jQuery("#event-json").html(eventJsonStr);
             //jQuery("#event-json").html(data);
         }
     });

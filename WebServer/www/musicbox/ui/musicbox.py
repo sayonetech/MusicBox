@@ -66,7 +66,7 @@ def event():
 
         message['event'] = request.form['event']
         message['songid'] = request.form['songid']
-        message['duration'] = request.form['clicktime'] or "02:42"
+        message['seconds_at_click'] = request.form['clicktime']
 
         message['ip4'] = request.remote_addr
         message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -74,7 +74,8 @@ def event():
     event_json = json.dumps(message)
     producer.send_messages(kafka_topic, event_json)
 
-    return jsonify(event_message=event_json)
+    #return jsonify(event_message=event_json)
+    return jsonify(**message)
 
 
 @app.route("/")
