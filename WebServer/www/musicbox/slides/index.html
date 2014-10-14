@@ -95,34 +95,42 @@
 
         <section id="data-produce" data-background="img/insight_data_pipeline.png">
             <pre><code data-trim>
-@app.route("/listen", methods=['GET', 'POST'])
-@app.route("/listen/user/userid/event", methods=['GET', 'POST'])
-@app.route("/listen/user/userid/event/song/songid", methods=['GET', 'POST'])
-def listen(userid=False, event=False, songid=False):
-    ''' tup, tdn, skip, pause, play '''
-    message = {}
-    message['event'] = event
-    message['songid'] = songid
-    event_json = json.dumps(message, indent=4, separators=(',', ': '))
+@app.route("/event", methods=['POST','GET'])
+def event():
+    message = {'status': 'OK'}
+    if request.method == 'POST':
+        if 'userid' in session:
+            uid = session['userid']
+        else:
+            uid = "guest"
+
+        message['userid'] = uid
+
+        message['event'] = request.form['event']
+        message['songid'] = request.form['songid']
+        message['seconds_at_click'] = request.form['clicktime']
+
+        message['ip4'] = request.remote_addr
+        message['timestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+    event_json = json.dumps(message)
     producer.send_messages(kafka_topic, event_json)
+
+    #return jsonify(event_message=event_json)
+    return jsonify(**message)
             </code></pre>
         </section>
 
         <section id="data-json" data-background="img/insight_data_pipeline.png">
             <pre><code data-trim width="100%">
 {
-    "event": "play",
-    "timestamp": "Sun Mar 16 17:18:17 2014",
-    "songid": "TREAYDQ128F147CC6C",
-    "uid": "d1999ac2-21a6-4308-b899-419439eedbbc",
-    "ip4": "46.13.224.152"
-}
-{
-    "event": "thumbs-dn",
-    "timestamp": "Sun Mar 16 17:25:25 2014",
-    "songid": "TREAYDQ128F147CC6C",
-    "uid": "d1999ac2-21a6-4308-b899-419439eedbbc",
-    "ip4": "46.13.224.152"
+  "event": "tup",
+  "ip4": "24.5.80.57",
+  "seconds_at_click": "70.723921",
+  "songid": "TR89384997KKJF8399KF",
+  "status": "OK",
+  "timestamp": "2014-10-14 06:05:51",
+  "userid": "Guest_24.5.80.57"
 }
             </code></pre>
         </section>
