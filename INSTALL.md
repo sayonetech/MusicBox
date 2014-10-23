@@ -8,4 +8,4 @@ ssh ~/.ssh/key.pem insight-webserver
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install git
-git clone https://github.com/talldave/MusicBox
+git clone https://github.com/talldave/MusicBox.git
