@@ -1,1 +1,1 @@
-wget -i $HOME/data/0msd_extract_urls.txt -nc -b -q
+wget -i $HOME/MusicBox/DataServer/data/0msd_extract_urls.txt -nc -b -q
